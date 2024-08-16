@@ -1,5 +1,6 @@
 {
-  "M": 50,
-  "RandomInitialConditions" : true,
-  "PeriodicBoundary": false
+  "m": 51,
+  "r": 5,
+  "radiusType": "Moore",
+  "initializationPercentage" : 0.3
 }

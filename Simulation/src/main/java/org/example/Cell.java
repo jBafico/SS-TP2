@@ -1,24 +1,28 @@
 package org.example;
 
-public class Cell {
-    private int state; //El estado puede ser 0 o 1
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    public Cell(int state) {
-        this.state = state;
-    }
+@Getter
+@Setter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+public class Cell  {
+    private boolean state = false; // true if alive, false if not
 
-    public int getState() {
-        return state;
+
+    public void setAlive() {
+        state = true;
     }
 
     public void switchState() {
-        switch (state) {
-            case 0:
-                state = 1;
-                break;
-            case 1:
-                state = 0;
-                break;
-        }
+        state = !state;
+    }
+
+    public Cell cloneState() {
+        return new Cell(this.state);
     }
 }
