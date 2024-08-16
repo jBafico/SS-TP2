@@ -1,0 +1,5 @@
+{
+  "M": 50,
+  "RandomInitialConditions" : true,
+  "PeriodicBoundary": false
+}
