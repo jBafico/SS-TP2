@@ -11,10 +11,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class GOLSimulation<TMatrix> {
-
-
     private final GridAbstract<TMatrix> currentGrid;
-    private List<TMatrix> history = new LinkedList<>();
+    private final List<TMatrix> history = new LinkedList<>();
 
 
     public void start(){

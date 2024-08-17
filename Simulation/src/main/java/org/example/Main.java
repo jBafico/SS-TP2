@@ -17,7 +17,7 @@ public class Main {
 
         SimulationParams params = mapper.readValue(initParams,SimulationParams.class);
 
-        var simulation = new GOLSimulation<Cell[][]>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.radiusType(), params.RandomInitialConditions()) );
+        var simulation = new GOLSimulation<Cell[][]>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
         
     }
 }
