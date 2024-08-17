@@ -19,21 +19,16 @@ public class GOLSimulation<TMatrix> {
     private final GridAbstract<TMatrix> currentGrid;
 
     public void start() throws IOException {
-        //TODO SACAR HISTORY Y VER COMO ESCRIBIR EL JSON DINAMICAMENTE CON EL FORMATO CORRECTO
-        List<Boolean[][]> history = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
-
-
+        //TODO VER COMO ESCRIBIR EL JSON DINAMICAMENTE CON EL FORMATO CORRECTO
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("../files/simulationOutput.json")) {
             System.out.println("Simulation started");
+            gson.toJson(currentGrid.matrix, writer);
             while (!currentGrid.isFinished()) {
-                history.add(currentGrid.cloneState());
                 currentGrid.evolve();
+                gson.toJson(currentGrid.matrix, writer);
                 System.out.println("I evolved");
             }
-            try (FileWriter writer = new FileWriter("../files/simulationOutput.json")) {
-                mapper.writeValue(writer, history);
-            }
-
+        }
     }
-    
 }
