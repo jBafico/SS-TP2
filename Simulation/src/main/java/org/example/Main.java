@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -17,7 +18,17 @@ public class Main {
 
         SimulationParams params = mapper.readValue(initParams,SimulationParams.class);
 
-        var simulation = new GOLSimulation<Cell[][]>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
-        
+        if(Objects.equals(params.dimension(), "2D")){
+            var simulation = new GOLSimulation<Cell[][]>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
+
+            //Arranco la Simulacion
+            simulation.start();
+
+
+        }else{
+            //TODO 3D Simulation
+        }
+
+
     }
 }

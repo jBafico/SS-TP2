@@ -1,8 +1,10 @@
 package org.example;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,20 +14,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GOLSimulation<TMatrix> {
     private final GridAbstract<TMatrix> currentGrid;
-    private final List<TMatrix> history = new LinkedList<>();
 
-
-    public void start(){
-        history.add(currentGrid.cloneState());
-        while (!currentGrid.isFinished()) {
-            currentGrid.evolve();
-            history.add(currentGrid.cloneState());
+    public void start() throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("../files/simulationOutput.json")) {
+            System.out.println("Simulation started");
+            gson.toJson(currentGrid.matrix, writer);
+            while (!currentGrid.isFinished()) {
+                currentGrid.evolve();
+                gson.toJson(currentGrid.matrix, writer);
+                System.out.println("I evolved");
+            }
         }
-        history.add(currentGrid.cloneState());
     }
-
-
-
-
     
 }

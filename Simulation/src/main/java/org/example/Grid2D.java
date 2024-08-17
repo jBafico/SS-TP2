@@ -14,7 +14,7 @@ public class Grid2D extends GridAbstract<Cell[][]> {
     @Override
     protected Cell[][] getEmptyMatrix() {
         Cell[][] newMatrix = new Cell[m][m];
-        IntStream.range(0, m).forEach(i -> IntStream.range(0, m).forEach(j -> newMatrix[i][j] = new Cell()));
+        IntStream.range(0, m).forEach(i -> IntStream.range(0, m).forEach(j -> newMatrix[i][j] = new Cell(false)));
         return newMatrix;
     }
 
@@ -40,11 +40,11 @@ public class Grid2D extends GridAbstract<Cell[][]> {
     }
 
     @Override
-    public Cell[][] cloneState() {
-        Cell[][] matrixClone = new Cell[m][m];
+    public Boolean[][] cloneState() {
+        Boolean[][] matrixClone = new Boolean[m][m];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
-                matrixClone[i][j] = this.matrix[i][j].cloneState();
+                matrixClone[i][j] = this.matrix[i][j].isState();
             }
         }
         return matrixClone;
@@ -53,7 +53,7 @@ public class Grid2D extends GridAbstract<Cell[][]> {
     @Override
     public void evolve() {
         //Como necesito comparar contra los estados en t-1 cuando paso al estado t primero realizo una copia de la matriz
-        Cell[][] auxMatrix = cloneState();
+        Boolean[][] auxMatrix = cloneState();
         //Ahora que tengo esto, puede empezar a generar la matriz en tiempo t comparando cada celda contra sus vecinos en el tiempo t-1
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
@@ -80,14 +80,14 @@ public class Grid2D extends GridAbstract<Cell[][]> {
     }
     
     // funcion que cuenta la cantidad de vecinos vivos que tiene la celda 
-    private int neighbourCount(int row, int col, Cell[][] auxMatrix) {
+    private int neighbourCount(int row, int col, Boolean[][] auxMatrix) {
         int aliveCount = 0;
 
         for (int i = row-1; i <= row+1; i++) {
             if(i>=0 && i<m) {
                 for (int j = col - 1; j <= col + 1; j++) {
                     if(j>=0 && j<m) {
-                        aliveCount += (auxMatrix[i][j].isState()) ? 1 : 0;
+                        aliveCount = aliveCount + ( (auxMatrix[i][j]) ? 1 : 0);
                     }
                 }
             }

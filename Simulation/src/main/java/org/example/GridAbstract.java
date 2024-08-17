@@ -2,8 +2,6 @@ package org.example;
 
 import lombok.Getter;
 
-import java.util.stream.IntStream;
-
 @Getter
 public abstract class GridAbstract<TMatrix> {
     protected TMatrix matrix;  // Cell matrix of N dimensions
@@ -22,7 +20,7 @@ public abstract class GridAbstract<TMatrix> {
         this.initializeMatrix();
     }
 
-    public abstract TMatrix cloneState();
+    public abstract Boolean[][] cloneState();
     public abstract void evolve();
     public abstract boolean isFinished();
 
@@ -42,4 +40,6 @@ public abstract class GridAbstract<TMatrix> {
             initializeMatrixWithGivenValues();
         }
     }
+
+
 }
