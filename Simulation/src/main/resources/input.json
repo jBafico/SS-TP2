@@ -1,6 +1,6 @@
 {
-  "m": 20,
-  "initializationRadius": 5,
+  "m": 10,
+  "initializationRadius": 3,
   "radiusType": "Moore",
   "initializationPercentage" : 0.8,
   "RandomInitialConditions" : true,

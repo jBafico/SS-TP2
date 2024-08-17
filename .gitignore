@@ -17,3 +17,4 @@ buildNumber.properties
 .classpath
 .idea/
 files/simulationOutput.json
+files/animation.gif
