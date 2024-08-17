@@ -85,8 +85,13 @@ public class Grid2D extends GridAbstract<Cell[][]> {
 
     @Override
     public boolean isFinished() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isFinished'");
+        for (int i = 0; i < m; i++) {
+            //reviso los bordes para ver si alguna celda esta prendida
+            if(matrix[0][i].isState() || matrix[m-1][i].isState() || matrix[i][0].isState() ||matrix[i][m-1].isState()){
+                return true;
+            }
+        }
+        return false;
     }
     
     // funcion que cuenta la cantidad de vecinos vivos que tiene la celda 
