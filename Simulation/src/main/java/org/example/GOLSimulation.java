@@ -19,6 +19,7 @@ public class GOLSimulation<TMatrix> {
     private final GridAbstract<TMatrix> currentGrid;
 
     public void start() throws IOException {
+        //TODO SACAR HISTORY Y VER COMO ESCRIBIR EL JSON DINAMICAMENTE CON EL FORMATO CORRECTO
         List<Boolean[][]> history = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
