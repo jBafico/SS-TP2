@@ -1,16 +1,18 @@
 [
   {
-    "m": 12,
+    "m": 20,
     "initializationRadius": 3,
     "initializationPercentage" : 0.8,
     "RandomInitialConditions" : true,
-    "dimension" : "2D"
+    "dimension" : "2D",
+    "maxEpochs": 100
   },
   {
     "m": 20,
     "initializationRadius": 5,
     "initializationPercentage": 0.8,
     "RandomInitialConditions": true,
-    "dimension": "3D"
+    "dimension": "3D",
+    "maxEpochs": 100
   }
 ]

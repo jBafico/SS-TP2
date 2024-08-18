@@ -31,7 +31,7 @@ public class GOLSimulation<TMatrix, TState> {
             gson.toJson(params, writer);
             writer.write(",\n\"results\": [\n");
 
-            while (!currentGrid.isFinished()) {
+            while (!currentGrid.isFinished() && evolutions < params.maxEpochs()) {
                 var matrix = currentGrid.evolve();
 
                 var mapToJson = Map.of("evolution_%s".formatted(evolutions),matrix);
