@@ -19,11 +19,11 @@ public class Main {
 
         if(Objects.equals(params.dimension(), "2D")){
             var simulation = new GOLSimulation<>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
-            simulation.start();
+            simulation.start("simulationOutput.json");
 
         } else if (Objects.equals(params.dimension(), "3D")){
             var simulation = new GOLSimulation<>(new Grid3D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
-            simulation.start();
+            simulation.start("simulationOutput3D.json");
         } else {
             throw new RuntimeException("Invalid param for dimension");
         }

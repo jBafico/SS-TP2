@@ -19,11 +19,11 @@ import lombok.RequiredArgsConstructor;
 public class GOLSimulation<TMatrix, TState> {
     private final GridAbstract<TMatrix, TState> currentGrid;
 
-    public void start() throws IOException {
+    public void start(String fileOutputName) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         int evolutions = 0;
 
-        try (FileWriter writer = new FileWriter("../files/simulationOutput.json")) {
+        try (FileWriter writer = new FileWriter("../files/%s".formatted(fileOutputName))) {
             System.out.println("Simulation started");
 
             writer.write("[\n");
