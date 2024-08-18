@@ -43,18 +43,33 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
 
     @Override
     public boolean isFinished() {
+        // Check if border has been reached by an alive cell
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
                 for (int k = 0; k < m; k++) {
                     if (i == 0 || i == m-1 || j == 0 || j == m-1 || k == 0 || k == m-1) {
                         if (matrix[i][j][k].isAlive()) {
+                            // The border has been reached -> simulation finished
                             return true;
                         }
                     }
                 }
             }
         }
-        return false;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < m; k++) {
+                    if (matrix[i][j][k].isAlive()) {
+                        // At least one cell is alive -> simulation not finished yet
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // No alive cells found -> simulation finished
+        return true;
     }
 
     @Override
