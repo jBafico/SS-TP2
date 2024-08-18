@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -19,17 +20,29 @@ public class GOLSimulation<TMatrix, TState> {
     private final GridAbstract<TMatrix, TState> currentGrid;
 
     public void start() throws IOException {
-        //TODO VER COMO ESCRIBIR EL JSON DINAMICAMENTE CON EL FORMATO CORRECTO
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         int evolutions = 0;
-        try (FileWriter writer = new FileWriter("./files/simulationOutput.json")) {
+
+        try (FileWriter writer = new FileWriter("../files/simulationOutput.json")) {
             System.out.println("Simulation started");
-            gson.toJson(currentGrid.matrix, writer);
+
+            writer.write("[\n");
+
             while (!currentGrid.isFinished()) {
-                currentGrid.evolve();
-                gson.toJson(currentGrid.matrix, writer);
+                var matrix = currentGrid.evolve();
+
+                var mapToJson = Map.of("evolution_%s".formatted(evolutions),matrix);
+
+
+                gson.toJson(mapToJson, writer);
+                writer.write(",\n");
+
                 System.out.printf("I evolved %d times \n", ++evolutions);
             }
+
+            gson.toJson(Map.of("evolution_%s".formatted(evolutions),currentGrid.cloneState()), writer);
+
+            writer.write("\n]");
         }
     }
 }

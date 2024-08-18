@@ -8,7 +8,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
     }
 
     @Override
-    protected Boolean[][][] cloneState() {
+    public Boolean[][][] cloneState() {
         Boolean[][][] matrixClone = new Boolean[m][m][m];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
@@ -21,7 +21,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
     }
 
     @Override
-    public void evolve() {
+    public Boolean[][][] evolve() {
         //Como necesito comparar contra los estados en t-1 cuando paso al estado t primero realizo una copia de la matriz
         Boolean[][][] auxMatrix = cloneState();
         //Ahora que tengo esto, puede empezar a generar la matriz en tiempo t comparando cada celda contra sus vecinos en el tiempo t-1
@@ -38,6 +38,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                 }
             }
         }
+        return auxMatrix;
     }
 
     @Override

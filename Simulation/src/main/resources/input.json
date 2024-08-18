@@ -1,5 +1,5 @@
 {
-  "m": 10,
+  "m": 12,
   "initializationRadius": 3,
   "initializationPercentage" : 0.8,
   "RandomInitialConditions" : true,

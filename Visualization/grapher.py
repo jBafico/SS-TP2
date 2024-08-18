@@ -1,38 +1,56 @@
 import json
-import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
-from io import BytesIO
+import matplotlib.pyplot as plt
+import imageio.v2 as imageio  # Importing imageio for GIF creation
+from matplotlib.colors import ListedColormap
 
-file_path= './files/simulationOutput.json'
-# Step 1: Load the JSON file
-with open(file_path, 'r') as file:
+
+SECONDS_MULTIPLIER = 1000
+
+
+with open("grapherConfig.json",'r') as config:
+    configuration = json.load(config)
+
+# Load JSON data from a file
+with open('../files/simulationOutput.json', 'r') as file:
     data = json.load(file)
 
-frames = []
-for matrix_data in data:
-    # Convert matrix of booleans to numpy array
-    array = np.array(matrix_data, dtype=np.uint8)
-    
-    # Create an image from the array
-    plt.imshow(array, cmap='gray', vmin=0, vmax=1)
-    plt.axis('off')
-    
-    # Save to a BytesIO buffer
-    buf = BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0)
-    plt.close()
-    
-    # Append the image to the frames list
-    buf.seek(0)
-    frames.append(Image.open(buf))
+# Define the color mapping
+def get_color(value):
+    return 1 if value else 0
 
-# Step 4: Save the frames as an animated GIF
-gif_path = './files/animation.gif'
-frames[0].save(
-    gif_path, 
-    save_all=True, 
-    append_images=frames[1:], 
-    duration=100,  # Duration between frames in milliseconds
-    loop=0         # 0 means infinite loop
-)
+# Custom colormap: 0 -> white, 1 -> green
+cmap = ListedColormap(['white', 'green'])
+
+# List to store images for GIF
+images = []
+
+# Visualize the grid for each evolution
+for evolution in data:
+    for key, grid in evolution.items():
+        # Convert the grid to a numpy array for easy manipulation
+        grid_array = np.array(grid)
+
+        # Plot the grid
+        fig, ax = plt.subplots()
+        ax.imshow(grid_array, cmap=cmap, vmin=0, vmax=1)
+
+        # Hide grid lines
+        ax.grid(False)
+
+        # Hide axes ticks
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+        # Set the title
+        ax.set_title(key)
+
+        # Save the current figure to an image in memory
+        plt.savefig("temp_image.png")
+        images.append(imageio.imread("temp_image.png"))
+
+        # Close the plot to avoid display during the process
+        plt.close()
+
+# Create a GIF from the collected images
+imageio.mimsave('simulation_evolution.gif', images, duration=configuration['delaySeconds'] * SECONDS_MULTIPLIER)

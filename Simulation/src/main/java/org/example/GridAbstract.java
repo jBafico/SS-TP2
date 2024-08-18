@@ -20,8 +20,8 @@ public abstract class GridAbstract<TMatrix, TState> {
         this.initializeMatrix();
     }
 
-    protected abstract TState cloneState();
-    public abstract void evolve();
+    public abstract TState cloneState();
+    public abstract TState evolve();
     public abstract boolean isFinished();
 
     // Generate a matrix of cells of N dimensions
