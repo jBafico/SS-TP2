@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 
-with open("../files/simulationOutput3D.json","r") as outputData:
+with open("../../files/simulationOutput3D.json","r") as outputData:
     data = json.load(outputData)
 
 with open("./grapher3dmomentViewerConfig.json","r") as configFile:

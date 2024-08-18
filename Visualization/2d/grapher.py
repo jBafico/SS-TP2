@@ -12,7 +12,7 @@ with open("grapherConfig.json",'r') as config:
     configuration = json.load(config)
 
 # Load JSON data from a file
-with open('../files/simulationOutput.json', 'r') as file:
+with open('../../files/simulationOutput.json', 'r') as file:
     data = json.load(file)
 
 # Define the color mapping

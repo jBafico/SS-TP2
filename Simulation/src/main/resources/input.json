@@ -3,5 +3,5 @@
   "initializationRadius": 3,
   "initializationPercentage" : 0.8,
   "RandomInitialConditions" : true,
-  "dimension" : "3D"
+  "dimension" : "2D"
 }

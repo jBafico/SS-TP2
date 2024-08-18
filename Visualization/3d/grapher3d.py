@@ -10,7 +10,7 @@ with open("./grapher3dconfig.json",'r') as configFile:
     configData = json.load(configFile)
 
 # Load JSON data from the specified file
-with open("../files/simulationOutput3D.json", "r") as outputData:
+with open("../../files/simulationOutput3D.json", "r") as outputData:
     data = json.load(outputData)
 
 # List to store images

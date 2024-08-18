@@ -23,7 +23,7 @@ public class GOLSimulation<TMatrix, TState> {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         int evolutions = 0;
 
-        try (FileWriter writer = new FileWriter("../files/%s".formatted(fileOutputName))) {
+        try (FileWriter writer = new FileWriter("./files/%s".formatted(fileOutputName))) {
             System.out.println("Simulation started");
 
             writer.write("[\n");
