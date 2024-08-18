@@ -11,22 +11,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Main {
     static ObjectMapper mapper = new ObjectMapper();
     public static void main(String[] args) throws StreamReadException, DatabindException, IOException {
-
-
+        // Get params from input.json
         InputStream initParams = Main.class.getClassLoader().getResourceAsStream("input.json");
 
-
+        // Parse the params
         SimulationParams params = mapper.readValue(initParams,SimulationParams.class);
 
         if(Objects.equals(params.dimension(), "2D")){
-            var simulation = new GOLSimulation<Cell[][]>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
-
-            //Arranco la Simulacion
+            var simulation = new GOLSimulation<>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
             simulation.start();
 
-
-        }else{
-            //TODO 3D Simulation
+        } else if (Objects.equals(params.dimension(), "3D")){
+            var simulation = new GOLSimulation<>(new Grid3D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.RandomInitialConditions()) );
+            simulation.start();
+        } else {
+            throw new RuntimeException("Invalid param for dimension");
         }
 
 

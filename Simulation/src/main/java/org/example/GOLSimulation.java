@@ -15,19 +15,20 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class GOLSimulation<TMatrix> {
-    private final GridAbstract<TMatrix> currentGrid;
+public class GOLSimulation<TMatrix, TState> {
+    private final GridAbstract<TMatrix, TState> currentGrid;
 
     public void start() throws IOException {
         //TODO VER COMO ESCRIBIR EL JSON DINAMICAMENTE CON EL FORMATO CORRECTO
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter("../files/simulationOutput.json")) {
+        int evolutions = 0;
+        try (FileWriter writer = new FileWriter("./files/simulationOutput.json")) {
             System.out.println("Simulation started");
             gson.toJson(currentGrid.matrix, writer);
             while (!currentGrid.isFinished()) {
                 currentGrid.evolve();
                 gson.toJson(currentGrid.matrix, writer);
-                System.out.println("I evolved");
+                System.out.printf("I evolved %d times \n", ++evolutions);
             }
         }
     }

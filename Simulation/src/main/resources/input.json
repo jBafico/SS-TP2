@@ -1,7 +1,6 @@
 {
   "m": 10,
   "initializationRadius": 3,
-  "radiusType": "Moore",
   "initializationPercentage" : 0.8,
   "RandomInitialConditions" : true,
   "dimension" : "2D"

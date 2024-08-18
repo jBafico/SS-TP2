@@ -8,15 +8,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Cell  {
-    private boolean state; // true if alive, false if not
+    private boolean alive; // true if alive, false if not
 
 
     public void setAlive() {
-        state = true;
+        alive = true;
     }
 
     public void switchState() {
-        state = !state;
+        alive = !alive;
     }
 
 }

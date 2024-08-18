@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.stream.IntStream;
 
 @Getter
-public class Grid2D extends GridAbstract<Cell[][]> {
+public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
     public Grid2D(int m, int r, double initializationPercentage, boolean randomInitialConditions) {
         super(m, r, initializationPercentage, randomInitialConditions);
     }
@@ -40,11 +40,11 @@ public class Grid2D extends GridAbstract<Cell[][]> {
     }
 
     @Override
-    public Boolean[][] cloneState() {
+    protected Boolean[][] cloneState() {
         Boolean[][] matrixClone = new Boolean[m][m];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
-                matrixClone[i][j] = this.matrix[i][j].isState();
+                matrixClone[i][j] = this.matrix[i][j].isAlive();
             }
         }
         return matrixClone;
@@ -59,9 +59,9 @@ public class Grid2D extends GridAbstract<Cell[][]> {
             for (int j = 0; j < m; j++) {
                 int aliveCount = neighbourCount(i, j, auxMatrix);
                 //Si esta viva y no tiene 2 o 3 vecinos vivos, muere
-                if(matrix[i][j].isState() && !(aliveCount==2 || aliveCount==3)){
+                if(matrix[i][j].isAlive() && !(aliveCount==2 || aliveCount==3)){
                     matrix[i][j].switchState();
-                } else if (!matrix[i][j].isState() && aliveCount==3) { //Si esta muerta y tienen 3 vecinos vivos, revive
+                } else if (!matrix[i][j].isAlive() && aliveCount==3) { //Si esta muerta y tienen 3 vecinos vivos, revive
                     matrix[i][j].switchState();
                 }
             }
@@ -72,14 +72,14 @@ public class Grid2D extends GridAbstract<Cell[][]> {
     public boolean isFinished() {
         for (int i = 0; i < m; i++) {
             //reviso los bordes para ver si alguna celda esta prendida
-            if(matrix[0][i].isState() || matrix[m-1][i].isState() || matrix[i][0].isState() ||matrix[i][m-1].isState()){
+            if(matrix[0][i].isAlive() || matrix[m-1][i].isAlive() || matrix[i][0].isAlive() ||matrix[i][m-1].isAlive()){
                 return true;
             }
         }
         return false;
     }
     
-    // funcion que cuenta la cantidad de vecinos vivos que tiene la celda 
+    // funcion que cuenta la cantidad de vecinos vivos que tiene la celda
     private int neighbourCount(int row, int col, Boolean[][] auxMatrix) {
         int aliveCount = 0;
 
@@ -92,7 +92,6 @@ public class Grid2D extends GridAbstract<Cell[][]> {
                 }
             }
         }
-
         return aliveCount;
     }
 }
