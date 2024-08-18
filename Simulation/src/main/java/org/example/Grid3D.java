@@ -32,8 +32,10 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                     //Si esta viva y no tiene 2 o 3 vecinos vivos, muere
                     if(matrix[i][j][k].isAlive() && !(aliveCount==2 || aliveCount==3)){
                         matrix[i][j][k].switchState();
+                        aliveCells--;
                     } else if (!matrix[i][j][k].isAlive() && aliveCount==3) { //Si esta muerta y tienen 3 vecinos vivos, revive
                         matrix[i][j][k].switchState();
+                        aliveCells++;
                     }
                 }
             }
@@ -43,6 +45,11 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
 
     @Override
     public boolean isFinished() {
+        //if there are no alive cells -> simulation finished
+        if(aliveCells==0){
+            return true;
+        }
+
         // Check if border has been reached by an alive cell
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
@@ -57,19 +64,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
             }
         }
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < m; j++) {
-                for (int k = 0; k < m; k++) {
-                    if (matrix[i][j][k].isAlive()) {
-                        // At least one cell is alive -> simulation not finished yet
-                        return false;
-                    }
-                }
-            }
-        }
-
-        // No alive cells found -> simulation finished
-        return true;
+        return false;
     }
 
     @Override
@@ -94,6 +89,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                     if (x >= 0 && x < m && y >= 0 && y < m && z >= 0 && z < m) { // border check
                         if (Math.random() <= initializationPercentage) {
                             matrix[x][y][z].setAlive();
+                            aliveCells++;
                         }
                     }
 

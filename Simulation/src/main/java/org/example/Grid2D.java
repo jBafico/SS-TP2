@@ -28,6 +28,7 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
                 if (x >= 0 && x < m && y >= 0 && y < m) { // border check
                     if (Math.random() <= initializationPercentage) {
                         matrix[x][y].setAlive();
+                        aliveCells++;
                     }
                 }
             }
@@ -63,8 +64,10 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
                 //Si esta viva y no tiene 2 o 3 vecinos vivos, muere
                 if(matrix[i][j].isAlive() && !(aliveCount==2 || aliveCount==3)){
                     matrix[i][j].switchState();
+                    aliveCells--;
                 } else if (!matrix[i][j].isAlive() && aliveCount==3) { //Si esta muerta y tienen 3 vecinos vivos, revive
                     matrix[i][j].switchState();
+                    aliveCells++;
                 }
             }
         }
@@ -75,6 +78,10 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
 
     @Override
     public boolean isFinished() {
+        //if there are no alive cells -> simulation finished
+        if(aliveCells==0){
+            return true;
+        }
         // Check if border has been reached by an alive cell
         for (int i = 0; i < m; i++) {
             if(matrix[0][i].isAlive() || matrix[m-1][i].isAlive() || matrix[i][0].isAlive() ||matrix[i][m-1].isAlive()){
@@ -83,18 +90,7 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
             }
         }
 
-        // Check if there is at least one alive cell
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < m; j++) {
-                if (matrix[i][j].isAlive()) {
-                    // At least one cell is alive -> simulation not finished yet
-                    return false;
-                }
-            }
-        }
-
-        // No alive cells found -> simulation finished
-        return true;
+        return false;
     }
     
     // funcion que cuenta la cantidad de vecinos vivos que tiene la celda
