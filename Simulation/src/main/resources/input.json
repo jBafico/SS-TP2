@@ -1,7 +1,16 @@
-{
-  "m": 12,
-  "initializationRadius": 3,
-  "initializationPercentage" : 0.8,
-  "RandomInitialConditions" : true,
-  "dimension" : "2D"
-}
+[
+  {
+    "m": 12,
+    "initializationRadius": 3,
+    "initializationPercentage" : 0.8,
+    "RandomInitialConditions" : true,
+    "dimension" : "2D"
+  },
+  {
+    "m": 20,
+    "initializationRadius": 5,
+    "initializationPercentage": 0.8,
+    "RandomInitialConditions": true,
+    "dimension": "3D"
+  }
+]

@@ -26,7 +26,7 @@ cmap = ListedColormap(['white', 'green'])
 images = []
 
 # Visualize the grid for each evolution
-for evolution in data:
+for evolution in data['results']:
     for key, grid in evolution.items():
         # Convert the grid to a numpy array for easy manipulation
         grid_array = np.array(grid)

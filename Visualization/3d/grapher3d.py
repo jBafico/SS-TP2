@@ -17,7 +17,7 @@ with open("../../files/simulationOutput3D.json", "r") as outputData:
 images = []
 
 # Loop through each evolution and create a plot for each
-for i, evolution_data in enumerate(data):
+for i, evolution_data in enumerate(data['results']):
     # Assume the key is dynamic and extract the 3D matrix
     key = list(evolution_data.keys())[0]
     evolution_array = np.array(evolution_data[key])

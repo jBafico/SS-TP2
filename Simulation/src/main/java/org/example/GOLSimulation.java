@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GOLSimulation<TMatrix, TState> {
     private final GridAbstract<TMatrix, TState> currentGrid;
+    private final SimulationParams params;
 
     public void start(String fileOutputName) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -26,7 +27,9 @@ public class GOLSimulation<TMatrix, TState> {
         try (FileWriter writer = new FileWriter("./files/%s".formatted(fileOutputName))) {
             System.out.println("Simulation started");
 
-            writer.write("[\n");
+            writer.write("{\n\"params\": ");
+            gson.toJson(params, writer);
+            writer.write(",\n\"results\": [\n");
 
             while (!currentGrid.isFinished()) {
                 var matrix = currentGrid.evolve();
@@ -42,7 +45,7 @@ public class GOLSimulation<TMatrix, TState> {
 
             gson.toJson(Map.of("evolution_%s".formatted(evolutions),currentGrid.cloneState()), writer);
 
-            writer.write("\n]");
+            writer.write("\n]\n}");
         }
     }
 }
