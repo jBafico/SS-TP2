@@ -1,18 +1,44 @@
-[
-  {
-    "m": 20,
-    "initializationRadius": 3,
-    "initializationPercentage" : 0.8,
-    "RandomInitialConditions" : true,
-    "dimension" : "2D",
-    "maxEpochs": 100
+{
+  "rulesets": {
+    "2D": {
+      "original": {
+        "amountToRevive": 3,
+        "neighboursToDie1": 2,
+        "neighboursToDie2": 3
+      },
+      "variant_1": {
+        "amountToRevive": 2,
+        "neighboursToDie1": 1,
+        "neighboursToDie2": 2
+      },
+      "variant_2": {
+        "amountToRevive": 4,
+        "neighboursToDie1": 3,
+        "neighboursToDie2": 4
+      }
+    },
+    "3D": {
+      "original": {
+        "amountToRevive": 3,
+        "neighboursToDie1": 2,
+        "neighboursToDie2": 3
+      },
+      "variant_1": {
+        "amountToRevive": 4,
+        "neighboursToDie1": 3,
+        "neighboursToDie2": 4
+      },
+      "variant_2": {
+        "amountToRevive": 5,
+        "neighboursToDie1": 4,
+        "neighboursToDie2": 5
+      }
+    }
   },
-  {
-    "m": 20,
-    "initializationRadius": 5,
-    "initializationPercentage": 0.8,
-    "RandomInitialConditions": true,
-    "dimension": "3D",
-    "maxEpochs": 100
-  }
-]
+  "initializationPercentages": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+  "maxEpochs": 100,
+  "m": 100,
+  "initializationRadius": 20,
+  "repetitions": 5,
+  "randomInitialConditions": true
+}
