@@ -71,8 +71,8 @@ public class Main {
                 initializationPercentages.forEach(initializationPercentage -> {
                     IntStream.range(0, allSimulationParams.repetitions()).forEach(repetition_id -> {
                         singleSimulationParamsList.add(new SingleSimulationParams(
-                            allSimulationParams.m(),
-                            allSimulationParams.initializationRadius(),
+                                (Objects.equals(dimension, "2D") ? allSimulationParams.m2D() : allSimulationParams.m3D()),
+                                (Objects.equals(dimension, "2D") ? allSimulationParams.initializationRadius2D() : allSimulationParams.initializationRadius3D()),
                             initializationPercentage,
                             allSimulationParams.randomInitialConditions(),
                             allSimulationParams.maxEpochs(),

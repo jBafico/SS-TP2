@@ -30,7 +30,7 @@ public class GOLSimulation<TMatrix, TState> {
         writer.write(",\n\"results\": [\n");
 
         while (!currentGrid.isFinished() && evolutions < params.maxEpochs()) {
-            var matrix = currentGrid.evolve();
+            var matrix = currentGrid.evolve(params.ruleset().amountToRevive(), params.ruleset().neighboursToDie1(), params.ruleset().neighboursToDie2());
 
             var mapToJson = Map.of("evolution_%s".formatted(evolutions),matrix);
 

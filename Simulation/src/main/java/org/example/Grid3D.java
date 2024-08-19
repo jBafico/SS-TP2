@@ -21,7 +21,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
     }
 
     @Override
-    public Boolean[][][] evolve() {
+    public Boolean[][][] evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2) {
         //Como necesito comparar contra los estados en t-1 cuando paso al estado t primero realizo una copia de la matriz
         Boolean[][][] auxMatrix = cloneState();
         //Ahora que tengo esto, puede empezar a generar la matriz en tiempo t comparando cada celda contra sus vecinos en el tiempo t-1
@@ -30,10 +30,10 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                 for (int k = 0; k < m; k++) {
                     int aliveCount = neighbourCount(i, j, k, auxMatrix);
                     //Si esta viva y no tiene 2 o 3 vecinos vivos, muere
-                    if(matrix[i][j][k].isAlive() && !(aliveCount==2 || aliveCount==3)){
+                    if(matrix[i][j][k].isAlive() && !(aliveCount==neighboursToDie1 || aliveCount==neighboursToDie2)){
                         matrix[i][j][k].switchState();
                         aliveCells--;
-                    } else if (!matrix[i][j][k].isAlive() && aliveCount==3) { //Si esta muerta y tienen 3 vecinos vivos, revive
+                    } else if (!matrix[i][j][k].isAlive() && aliveCount==amountToRevive) { //Si esta muerta y tienen 3 vecinos vivos, revive
                         matrix[i][j][k].switchState();
                         aliveCells++;
                     }
