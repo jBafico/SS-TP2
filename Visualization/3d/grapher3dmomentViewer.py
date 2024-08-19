@@ -15,7 +15,7 @@ with open("./grapher3dmomentViewerConfig.json","r") as configFile:
 
 index = configData['index']
 
-evolution = data[index][f"evolution_{index}"]
+evolution = data['results'][index][f"evolution_{index}"]
 
 # Convert the boolean matrix to a NumPy array
 evolution_array = np.array(evolution)
