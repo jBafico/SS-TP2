@@ -21,4 +21,5 @@ files/animation.gif
 *.gif
 *.png
 files/simulationOutput3D.json
+files/
 Simulation/.idea/misc.xml
