@@ -119,7 +119,10 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                     if (k < 0 || k >= m){
                         continue;
                     }
-                    aliveCount = aliveCount + ( (auxMatrix[i][j][k]) ? 1 : 0);
+                    if(!(i==x && j==y && k==z)){ //we dont want to consider the cell we are analizing
+                        aliveCount = aliveCount + ( (auxMatrix[i][j][k]) ? 1 : 0);
+                    }
+
                 }
             }
         }

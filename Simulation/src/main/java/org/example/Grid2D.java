@@ -101,7 +101,9 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
             if(i>=0 && i<m) {
                 for (int j = col - 1; j <= col + 1; j++) {
                     if(j>=0 && j<m) {
-                        aliveCount = aliveCount + ( (auxMatrix[i][j]) ? 1 : 0);
+                        if(!(i==row && j==col)){ //we dont want to consider the cell we are analizing
+                            aliveCount = aliveCount + ( (auxMatrix[i][j]) ? 1 : 0);
+                        }
                     }
                 }
             }
