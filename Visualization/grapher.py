@@ -32,6 +32,8 @@ def main():
         # List to store images for GIF
         images = []
 
+        title= "Sistem: " + dimension + " - Initialization Percentage: " + str(initializationPercentage) + " - Ruleset: [" + str(amountToRevive) + "," + str(neighboursToDie1) + "," + str(neighboursToDie2) + "] "
+
         if dimension=='2D':
            # Visualize the grid for each evolution
             for evolution_no, grid in simulation['results'].items():
@@ -50,9 +52,8 @@ def main():
                 ax.set_yticks([])
 
                 # Set the title
-                ax.set_title(evolution_no)
+                ax.set_title(title + evolution_no)
 
-                #TODO add params to GIF
                 # Save the current figure to an image in memory
                 plt.savefig("temp_image.png")
                 images.append(imageio.imread("temp_image.png"))
@@ -77,6 +78,9 @@ def main():
                 colors[grid_array] = 'green'
                 colors[~grid_array] = 'white'
 
+                # Set the title
+                ax.set_title(title + evolution_no)
+
                 # Plot the cubes
                 ax.voxels(grid_array, facecolors=colors, edgecolor='k')
 
@@ -85,7 +89,6 @@ def main():
                 ax.set_ylabel('Y')
                 ax.set_zlabel('Z')
 
-                #TODO add params to GIF
                 # Save the current plot to an in-memory buffer
                 buf = io.BytesIO()
                 plt.savefig(buf, format='png')
