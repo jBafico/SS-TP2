@@ -3,8 +3,11 @@ package org.example;
 import java.util.stream.IntStream;
 
 public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
+
+    Boolean[][][] pastState;
     public Grid3D(int m, int r, double initializationPercentage, boolean randomInitialConditions) {
         super(m, r, initializationPercentage, randomInitialConditions);
+        pastState = new Boolean[m][m][m];
     }
 
     @Override
@@ -23,12 +26,13 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
     @Override
     public Boolean[][][] evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2) {
         //Como necesito comparar contra los estados en t-1 cuando paso al estado t primero realizo una copia de la matriz
-        Boolean[][][] auxMatrix = cloneState();
+        pastState = cloneState();
+        aliveCellsPastState=aliveCells;
         //Ahora que tengo esto, puede empezar a generar la matriz en tiempo t comparando cada celda contra sus vecinos en el tiempo t-1
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
                 for (int k = 0; k < m; k++) {
-                    int aliveCount = neighbourCount(i, j, k, auxMatrix);
+                    int aliveCount = neighbourCount(i, j, k, pastState);
                     //Si esta viva y no tiene 2 o 3 vecinos vivos, muere
                     if(matrix[i][j][k].isAlive() && !(aliveCount==neighboursToDie1 || aliveCount==neighboursToDie2)){
                         matrix[i][j][k].switchState();
@@ -40,13 +44,18 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                 }
             }
         }
-        return auxMatrix;
+        return pastState;
     }
 
     @Override
     public boolean isFinished() {
         //if there are no alive cells -> simulation finished
         if(aliveCells==0){
+            return true;
+        }
+
+        //if the matrix is equal to its past state -> simulation finished
+        if(aliveCellsPastState==aliveCells && compareStates()){
             return true;
         }
 
@@ -130,5 +139,17 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
         return aliveCount;
     }
 
+    private boolean compareStates(){
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < m; k++) {
+                    if (matrix[i][j][k].isAlive() != pastState[i][j][k]) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ public abstract class GridAbstract<TMatrix, TState> {
     protected double initializationPercentage;
     protected boolean randomInitialConditions;
     protected int aliveCells;
+    protected int aliveCellsPastState;
 
     public GridAbstract(int m, int r, double initializationPercentage, boolean randomInitialConditions) {
         this.m = m;
@@ -18,6 +19,7 @@ public abstract class GridAbstract<TMatrix, TState> {
         this.randomInitialConditions = randomInitialConditions;
         this.matrix = getEmptyMatrix();
         this.aliveCells = 0;
+        this.aliveCellsPastState = 0;
 
         this.initializeMatrix();
     }
