@@ -19,5 +19,6 @@ buildNumber.properties
 files/animation.gif
 *.gif
 *.png
+files/
 Simulation/.idea/misc.xml
 **simulation*.json

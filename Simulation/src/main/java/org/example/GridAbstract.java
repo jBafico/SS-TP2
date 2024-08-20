@@ -23,7 +23,7 @@ public abstract class GridAbstract<TMatrix, TState> {
     }
 
     public abstract TState cloneState();
-    public abstract TState evolve();
+    public abstract TState evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2);
     public abstract boolean isFinished();
 
     // Generate a matrix of cells of N dimensions

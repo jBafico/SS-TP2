@@ -37,8 +37,10 @@
   },
   "initializationPercentages": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
   "maxEpochs": 100,
-  "m": 100,
-  "initializationRadius": 20,
+  "m2D": 100,
+  "initializationRadius2D": 20,
+  "m3D": 30,
+  "initializationRadius3D": 3,
   "repetitions": 5,
   "randomInitialConditions": true
 }
