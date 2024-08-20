@@ -16,9 +16,8 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 .idea/
-files/simulationOutput.json
 files/animation.gif
 *.gif
 *.png
-files/simulationOutput3D.json
 Simulation/.idea/misc.xml
+**simulation*.json
