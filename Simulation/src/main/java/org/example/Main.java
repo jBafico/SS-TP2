@@ -35,18 +35,19 @@ public class Main {
         // Invoke every simulation from the generated list
         try (FileWriter writer = initializeOutputJson(filenameWithTimestamp)){
             singleSimulationParamsList.forEach(params -> {
-            try {
-                callSimulation(params, writer);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                try {
+                    callSimulation(params, writer);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            writer.write("\n]");
         }
     }
 
     private static FileWriter initializeOutputJson(String outputJsonName) throws IOException {
         FileWriter writer = new FileWriter("./files/%s".formatted(outputJsonName));
-        writer.write("{\n");
+        writer.write("[\n");
         return writer;
     }
 

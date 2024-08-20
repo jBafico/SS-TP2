@@ -25,16 +25,14 @@ public class GOLSimulation<TMatrix, TState> {
 
         System.out.println("Simulation started");
 
-        writer.write("\"params\": ");
+        writer.write("{\n\"params\": ");
         gson.toJson(params, writer);
-        writer.write(",\n\"results\": [\n");
+        writer.write(",\n\"results\": \n");
 
         while (!currentGrid.isFinished() && evolutions < params.maxEpochs()) {
             var matrix = currentGrid.evolve(params.ruleset().amountToRevive(), params.ruleset().neighboursToDie1(), params.ruleset().neighboursToDie2());
 
-            var mapToJson = Map.of("evolution_%s".formatted(evolutions),matrix);
-
-
+            var mapToJson = Map.of("evolution_%s".formatted(evolutions), matrix);
             gson.toJson(mapToJson, writer);
             writer.write(",\n");
 
@@ -43,7 +41,7 @@ public class GOLSimulation<TMatrix, TState> {
 
         gson.toJson(Map.of("evolution_%s".formatted(evolutions),currentGrid.cloneState()), writer);
 
-        writer.write("\n]");
+        writer.write("\n}");
     }
 }
 
