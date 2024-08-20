@@ -23,25 +23,29 @@ public class GOLSimulation<TMatrix, TState> {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         int evolutions = 0;
 
-        System.out.println("Simulation started");
-
         writer.write("{\n\"params\": ");
         gson.toJson(params, writer);
-        writer.write(",\n\"results\": \n");
+        writer.write(",\n\"results\": {\n");
 
         while (!currentGrid.isFinished() && evolutions < params.maxEpochs()) {
             var matrix = currentGrid.evolve(params.ruleset().amountToRevive(), params.ruleset().neighboursToDie1(), params.ruleset().neighboursToDie2());
 
-            var mapToJson = Map.of("evolution_%s".formatted(evolutions), matrix);
-            gson.toJson(mapToJson, writer);
+            writer.write("\"evolution_%s\": ".formatted(evolutions));
+            gson.toJson(matrix, writer);
             writer.write(",\n");
 
-            System.out.printf("I evolved %d times \n", ++evolutions);
+            evolutions++;
+            if (evolutions % 10 == 0) {
+                System.out.printf("I evolved %d times \n", evolutions);
+            }
         }
 
-        gson.toJson(Map.of("evolution_%s".formatted(evolutions),currentGrid.cloneState()), writer);
+        System.out.printf("Total evolutions: %d\n\n\n", evolutions);
 
-        writer.write("\n}");
+        writer.write("\"evolution_%s\": ".formatted(evolutions));
+        gson.toJson(currentGrid.cloneState(), writer);
+
+        writer.write("\n}\n}");
     }
 }
 

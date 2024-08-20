@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,10 +34,11 @@ public class Main {
         String filenameWithTimestamp = "simulation_" + timeStamp + ".json";
 
         // Invoke every simulation from the generated list
+        final AtomicInteger simulationCounter = new AtomicInteger(0);
         try (FileWriter writer = initializeOutputJson(filenameWithTimestamp)){
             singleSimulationParamsList.forEach(params -> {
                 try {
-                    callSimulation(params, writer);
+                    callSimulation(params, writer, simulationCounter.incrementAndGet(), singleSimulationParamsList.size());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -51,7 +53,11 @@ public class Main {
         return writer;
     }
 
-    private static void callSimulation(SingleSimulationParams params, FileWriter writer) throws IOException {
+    private static void callSimulation(SingleSimulationParams params, FileWriter writer, int simulationNumber, int totalSimulations) throws IOException {
+        System.out.printf("Starting simulation %d of %d\n", simulationNumber, totalSimulations);
+        if (simulationNumber > 1){
+            writer.write(',');
+        }
         if(Objects.equals(params.dimension(), "2D")){
             var simulation = new GOLSimulation<>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.randomInitialConditions()), params );
             simulation.start(writer);
