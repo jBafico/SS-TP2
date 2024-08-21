@@ -4,6 +4,10 @@ import lombok.Getter;
 
 @Getter
 public abstract class GridAbstract<TMatrix, TState> {
+
+
+    protected FinishStatus finishStatus = FinishStatus.NOT_FINISHED;
+
     protected TMatrix matrix;  // Cell matrix of N dimensions
     protected int m;  // The matrix size is m^N
     protected int r;  // Radius to initialize

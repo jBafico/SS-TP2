@@ -4,6 +4,7 @@ import java.util.stream.IntStream;
 
 public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
 
+
     Boolean[][][] pastState;
     public Grid3D(int m, int r, double initializationPercentage, boolean randomInitialConditions) {
         super(m, r, initializationPercentage, randomInitialConditions);
@@ -51,11 +52,13 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
     public boolean isFinished() {
         //if there are no alive cells -> simulation finished
         if(aliveCells==0){
+            finishStatus = FinishStatus.WITH_ALL_DEAD;
             return true;
         }
 
         //if the matrix is equal to its past state -> simulation finished
         if(aliveCellsPastState==aliveCells && compareStates()){
+            finishStatus = FinishStatus.WITH_SAME_AS_PREVIOUS_STATE;
             return true;
         }
 
@@ -66,6 +69,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                     if (i == 0 || i == m-1 || j == 0 || j == m-1 || k == 0 || k == m-1) {
                         if (matrix[i][j][k].isAlive()) {
                             // The border has been reached -> simulation finished
+                            finishStatus = FinishStatus.WITH_BORDER;
                             return true;
                         }
                     }

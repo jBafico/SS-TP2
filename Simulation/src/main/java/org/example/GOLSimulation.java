@@ -22,7 +22,6 @@ public class GOLSimulation<TMatrix, TState> {
     public void start(FileWriter writer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         int evolutions = 0;
-
         writer.write("{\n\"params\": ");
         gson.toJson(params, writer);
         writer.write(",\n\"results\": {\n");
@@ -39,13 +38,15 @@ public class GOLSimulation<TMatrix, TState> {
                 System.out.printf("I evolved %d times \n", evolutions);
             }
         }
-
         System.out.printf("Total evolutions: %d\n\n\n", evolutions);
 
         writer.write("\"evolution_%s\": ".formatted(evolutions));
         gson.toJson(currentGrid.cloneState(), writer);
 
-        writer.write("\n}\n}");
+
+        FinishStatus finalStatus = evolutions == params.maxEpochs() ? FinishStatus.WITH_MAX_EPOCHS: currentGrid.getFinishStatus();
+
+        writer.write("\n}, \"endingStatus\": \"%s\"\n}".formatted(finalStatus.getStatus()));
     }
 }
 

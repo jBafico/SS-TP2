@@ -85,11 +85,13 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
     public boolean isFinished() {
         //if there are no alive cells -> simulation finished
         if(aliveCells==0){
+            finishStatus = FinishStatus.WITH_ALL_DEAD;
             return true;
         }
 
         //if the matrix is equal to its past state -> simulation finished
         if(aliveCellsPastState==aliveCells && compareStates()){
+            finishStatus = FinishStatus.WITH_SAME_AS_PREVIOUS_STATE;
             return true;
         }
 
@@ -97,6 +99,7 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
         for (int i = 0; i < m; i++) {
             if(matrix[0][i].isAlive() || matrix[m-1][i].isAlive() || matrix[i][0].isAlive() ||matrix[i][m-1].isAlive()){
                 // The border has been reached -> simulation finished
+                finishStatus = FinishStatus.WITH_BORDER;
                 return true;
             }
         }
