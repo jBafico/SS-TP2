@@ -23,3 +23,4 @@ files/
 Simulation/.idea/misc.xml
 **simulation*.json
 **simulation*.gif
+*.pyc

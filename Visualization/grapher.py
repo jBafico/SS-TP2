@@ -2,11 +2,9 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import imageio.v2 as imageio  # Importing imageio for GIF creation
-from matplotlib.colors import ListedColormap
 from matplotlib.colors import LinearSegmentedColormap
 import io
-import re
-from pathlib import Path
+from classes import parse_json
 
 SECONDS_MULTIPLIER = 1000
 
@@ -15,27 +13,22 @@ def main():
         configuration = json.load(config)
 
     # Load the most recent output json
-    data = load_most_recent_simulation_json('../files')
+    simulations = parse_json('../files')
 
-    for i, simulation in enumerate(data):
-        params=simulation['params']
-        dimension=params['dimension']
+    for i, simulation in enumerate(simulations):
+        params = simulation.params
+        dimension = simulation.params.dimension
+        ruleset = params.ruleset
 
-        initializationPercentage = params['initializationPercentage']
-        ruleset = params['ruleset']
-        amountToRevive = ruleset['amountToRevive']
-        neighboursToDie1 = ruleset['neighboursToDie1']
-        neighboursToDie2 = ruleset['neighboursToDie2']
         # List to store images for GIF
         images = []
 
-        title= "System: " + dimension + " - Initialization Percentage: " + str(initializationPercentage) + " - Ruleset: [" + str(amountToRevive) + "," + str(neighboursToDie1) + "," + str(neighboursToDie2) + "] "
+        title= "System: " + dimension + " - Initialization Percentage: " + str(params.initialization_percentage) + " - Ruleset: [" + str(ruleset.amount_to_revive) + "," + str(ruleset.neighbours_to_die1) + "," + str(ruleset.neighbours_to_die2) + "] "
 
         if dimension=='2D':
-            continue
            # Visualize the grid for each evolution
-            for evolution_no, evolution_state in simulation['results'].items():
-                grid = evolution_state['matrix']
+            for evolution_no, evolution_state in simulation.results.evolutions.items():
+                grid = evolution_state
                 grid_array = np.array(grid)
 
                 # Create a gradient colormap from green to white
@@ -73,7 +66,7 @@ def main():
         elif dimension=='3D':
             print("in 3d")
             # Loop through each evolution and create a plot for each
-            for evolution_no, evolution_state in simulation['results'].items():
+            for evolution_no, evolution_state in simulation.results.evolutions.items():
                 grid = evolution_state['matrix']
                 grid_array = np.array(grid)
 
@@ -116,25 +109,6 @@ def main():
 
             print("GIF created successfully: evolution_progression.gif")
 
-
-def load_most_recent_simulation_json(directory_path: str):
-    # Define the pattern for matching the file names
-    pattern = re.compile(r"simulation_\d{8}_\d{6}\.json")
-
-    # Get a list of all files in the directory that match the pattern
-    files = [f for f in Path(directory_path).iterdir() if pattern.match(f.name)]
-
-    if not files:
-        print("No simulation files found.")
-        return None
-
-    # Sort files based on the timestamp in the filename
-    most_recent_file = max(files, key=lambda f: f.stem.split('_')[1:])
-
-    # Open and return the JSON data from the file
-    with most_recent_file.open('r') as file:
-        print(f'Opening file {most_recent_file.name}')
-        return json.load(file)
 
 if __name__ == "__main__":
     main()
