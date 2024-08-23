@@ -1,3 +1,3 @@
 package org.example;
 
-public record GridState<TStateMatrix>(TStateMatrix matrix, int aliveCells) {}
+public record GridState<TStateMatrix>(TStateMatrix matrix, int aliveCells, double biggestDistanceFromCenter) {}

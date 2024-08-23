@@ -45,7 +45,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                 }
             }
         }
-        return new GridState<>(pastState, aliveCells);
+        return new GridState<>(pastState, aliveCells, this.getBiggestDistanceFromCenter(pastState));
     }
 
     @Override
@@ -88,6 +88,29 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                         .forEach(j -> IntStream.range(0, m)
                                 .forEach(k -> newMatrix[i][j][k] = new Cell(false))));
         return newMatrix;
+    }
+
+    @Override
+    public double getBiggestDistanceFromCenter(Boolean[][][] matrix) {
+        double biggestDistance = 0;
+        double centerX = (double) (m) / 2;
+        double centerY = (double) (m) / 2;
+        double centerZ = (double) (m) / 2;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < m; k++) {
+                    // If the cell is not alive, ignore it
+                    if (!matrix[i][j][k]){
+                        continue;
+                    }
+                    double distance = Math.sqrt(Math.pow((i - centerX), 2) + Math.pow((j - centerY), 2) + Math.pow((k - centerZ), 2));
+                    if (distance > biggestDistance) {
+                        biggestDistance = distance;
+                    }
+                }
+            }
+        }
+        return biggestDistance;
     }
 
     @Override

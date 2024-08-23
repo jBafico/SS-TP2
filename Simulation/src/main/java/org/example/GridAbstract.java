@@ -30,8 +30,10 @@ public abstract class GridAbstract<TCellMatrix, TStateMatrix> {
 
     public abstract TStateMatrix cloneState();
     public GridState<TStateMatrix> getCurrentGridState() {
-        return new GridState<>(this.cloneState(), this.aliveCells);
+        TStateMatrix stateMatrix = cloneState();
+        return new GridState<>(stateMatrix, this.aliveCells, this.getBiggestDistanceFromCenter(stateMatrix));
     }
+    public abstract double getBiggestDistanceFromCenter(TStateMatrix matrix);
     public abstract GridState<TStateMatrix> evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2);
     public abstract boolean isFinished();
 

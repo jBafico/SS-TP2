@@ -55,6 +55,26 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
         return matrixClone;
     }
 
+    @Override
+    public double getBiggestDistanceFromCenter(Boolean [][] matrix) {
+        double biggestDistance = 0;
+        double centerX = (double) (m) / 2;
+        double centerY = (double) (m) / 2;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                // If the cell is not alive, ignore it
+                if (!matrix[i][j]){
+                    continue;
+                }
+                double distance = Math.sqrt(Math.pow((i - centerX), 2) + Math.pow((j - centerY), 2));
+                if (distance > biggestDistance) {
+                    biggestDistance = distance;
+                }
+            }
+        }
+        return biggestDistance;
+    }
+
 
     // Returns previous state on evolution
     @Override
@@ -76,7 +96,7 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
                 }
             }
         }
-        return new GridState<>(pastState, aliveCells);
+        return new GridState<>(pastState, aliveCells, getBiggestDistanceFromCenter(pastState));
     }
 
 
