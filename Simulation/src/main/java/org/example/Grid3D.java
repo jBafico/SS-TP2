@@ -25,7 +25,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
     }
 
     @Override
-    public Boolean[][][] evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2) {
+    public GridState<Boolean[][][]> evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2) {
         //Como necesito comparar contra los estados en t-1 cuando paso al estado t primero realizo una copia de la matriz
         pastState = cloneState();
         aliveCellsPastState=aliveCells;
@@ -45,7 +45,7 @@ public class Grid3D extends GridAbstract<Cell[][][], Boolean[][][]>{
                 }
             }
         }
-        return pastState;
+        return new GridState<>(pastState, aliveCells);
     }
 
     @Override

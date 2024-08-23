@@ -58,7 +58,7 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
 
     // Returns previous state on evolution
     @Override
-    public Boolean[][] evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2) {
+    public GridState<Boolean[][]> evolve(int amountToRevive, int neighboursToDie1, int neighboursToDie2) {
         //Como necesito comparar contra los estados en t-1 cuando paso al estado t primero realizo una copia de la matriz
         pastState = cloneState();
         aliveCellsPastState=aliveCells;
@@ -76,7 +76,7 @@ public class Grid2D extends GridAbstract<Cell[][], Boolean[][]> {
                 }
             }
         }
-        return pastState;
+        return new GridState<>(pastState, aliveCells);
     }
 
 

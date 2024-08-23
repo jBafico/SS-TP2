@@ -32,11 +32,12 @@ def main():
         # List to store images for GIF
         images = []
 
-        title= "Sistem: " + dimension + " - Initialization Percentage: " + str(initializationPercentage) + " - Ruleset: [" + str(amountToRevive) + "," + str(neighboursToDie1) + "," + str(neighboursToDie2) + "] "
+        title= "System: " + dimension + " - Initialization Percentage: " + str(initializationPercentage) + " - Ruleset: [" + str(amountToRevive) + "," + str(neighboursToDie1) + "," + str(neighboursToDie2) + "] "
 
         if dimension=='2D':
            # Visualize the grid for each evolution
-            for evolution_no, grid in simulation['results'].items():
+            for evolution_no, evolution_state in simulation['results'].items():
+                grid = evolution_state['matrix']
                 # Convert the grid to a numpy array for easy manipulation
                 grid_array = np.array(grid)
 
@@ -65,7 +66,8 @@ def main():
             imageio.mimsave('simulation_evolution'+str(i)+'.gif', images, duration=configuration['delaySeconds'] * SECONDS_MULTIPLIER)
         elif dimension=='3D':
             # Loop through each evolution and create a plot for each
-            for evolution_no, grid in simulation['results'].items():
+            for evolution_no, evolution_state in simulation['results'].items():
+                grid = evolution_state['matrix']
                 # Assume the key is dynamic and extract the 3D matrix
                 grid_array = np.array(grid)
 
