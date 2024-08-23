@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import imageio.v2 as imageio  # Importing imageio for GIF creation
 from matplotlib.colors import ListedColormap
+from matplotlib.colors import LinearSegmentedColormap
 import io
 import re
 from pathlib import Path
@@ -38,31 +39,36 @@ def main():
            # Visualize the grid for each evolution
             for evolution_no, evolution_state in simulation['results'].items():
                 grid = evolution_state['matrix']
-                # Convert the grid to a numpy array for easy manipulation
+
                 grid_array = np.array(grid)
 
-                # Plot the grid
+                # Create a gradient colormap from green to white
+                cmap = LinearSegmentedColormap.from_list("green_gradient", ["white", "green"])
+
+                # Calculate distances from the center
+                center = np.array(grid_array.shape) // 2
+                distances = np.linalg.norm(np.indices(grid_array.shape).T - center, axis=-1)
+
+                # Normalize distances to [0, 1]
+                normalized_distances = distances / np.max(distances)
+
+                # Plot only True values with gradient colors
+                colored_grid = np.zeros(grid_array.shape)
+                colored_grid[grid_array] = normalized_distances[grid_array]
+
                 fig, ax = plt.subplots()
-                ax.imshow(grid_array, cmap=cmap, vmin=0, vmax=1)
+                ax.imshow(colored_grid, cmap=cmap, vmin=0, vmax=1)
 
-                # Hide grid lines
                 ax.grid(False)
-
-                # Hide axes ticks
                 ax.set_xticks([])
                 ax.set_yticks([])
-
-                # Set the title
                 ax.set_title(title + evolution_no)
 
-                # Save the current figure to an image in memory
                 plt.savefig("temp_image.png")
                 images.append(imageio.imread("temp_image.png"))
-
-                # Close the plot to avoid display during the process
                 plt.close()
 
-            # Create a GIF from the collected images
+           # Create a GIF from the collected images
             imageio.mimsave('simulation_evolution'+str(i)+'.gif', images, duration=configuration['delaySeconds'] * SECONDS_MULTIPLIER)
         elif dimension=='3D':
             # Loop through each evolution and create a plot for each
