@@ -8,7 +8,6 @@ import io
 import re
 from pathlib import Path
 
-
 SECONDS_MULTIPLIER = 1000
 
 def main():
@@ -33,6 +32,7 @@ def main():
         title= "System: " + dimension + " - Initialization Percentage: " + str(initializationPercentage) + " - Ruleset: [" + str(amountToRevive) + "," + str(neighboursToDie1) + "," + str(neighboursToDie2) + "] "
 
         if dimension=='2D':
+            continue
            # Visualize the grid for each evolution
             for evolution_no, evolution_state in simulation['results'].items():
                 grid = evolution_state['matrix']
@@ -71,33 +71,39 @@ def main():
            # Create a GIF from the collected images
             imageio.mimsave('simulation_evolution'+str(i)+'.gif', images, duration=configuration['delaySeconds'] * SECONDS_MULTIPLIER)
         elif dimension=='3D':
+            print("in 3d")
             # Loop through each evolution and create a plot for each
             for evolution_no, evolution_state in simulation['results'].items():
                 grid = evolution_state['matrix']
-                # Assume the key is dynamic and extract the 3D matrix
                 grid_array = np.array(grid)
 
-                # Create a 3D plot
+                # Create a gradient colormap from green to white
+                #cmap = LinearSegmentedColormap.from_list("red_green_gradient", ["red", "green"])
+
+                cmap = LinearSegmentedColormap.from_list("green_gradient", ["white", "green"])
+
+                # Calculate distances from the center
+                center = np.array(grid_array.shape) // 2
+                distances = np.linalg.norm(np.indices(grid_array.shape).T - center, axis=-1)
+
+                # Normalize distances to [0, 1]
+                normalized_distances = distances / np.max(distances)
+
                 fig = plt.figure()
                 ax = fig.add_subplot(111, projection='3d')
 
-                # Define colors for True (green) and False (white)
-                colors = np.empty(grid_array.shape, dtype=object)
-                colors[grid_array] = 'green'
-                colors[~grid_array] = 'white'
+                # Assign RGBA colors based on distance and True/False values
+                colors = np.zeros(grid_array.shape + (4,), dtype=float)  # RGBA colors
+                colors[grid_array] = cmap(normalized_distances[grid_array])
+                colors[~grid_array, 3] = 0  # Set alpha to 0 for false values
 
-                # Set the title
                 ax.set_title(title + evolution_no)
-
-                # Plot the cubes
                 ax.voxels(grid_array, facecolors=colors, edgecolor='k')
 
-                # Set labels
                 ax.set_xlabel('X')
                 ax.set_ylabel('Y')
                 ax.set_zlabel('Z')
 
-                # Save the current plot to an in-memory buffer
                 buf = io.BytesIO()
                 plt.savefig(buf, format='png')
                 buf.seek(0)
@@ -109,7 +115,6 @@ def main():
             imageio.mimsave('simulation_evolution'+str(i)+'.gif', images, duration= configuration['delaySeconds'] * SECONDS_MULTIPLIER)
 
             print("GIF created successfully: evolution_progression.gif")
-
 
 
 def load_most_recent_simulation_json(directory_path: str):

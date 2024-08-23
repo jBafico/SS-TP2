@@ -61,7 +61,6 @@ public class Main {
         if(Objects.equals(params.dimension(), "2D")){
             var simulation = new GOLSimulation<>(new Grid2D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.randomInitialConditions()), params );
             simulation.start(writer);
-
         } else if (Objects.equals(params.dimension(), "3D")){
             var simulation = new GOLSimulation<>(new Grid3D(params.m(), params.initializationRadius(), params.initializationPercentage(), params.randomInitialConditions()), params );
             simulation.start(writer);
