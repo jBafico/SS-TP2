@@ -18,9 +18,6 @@ def main():
     # Load the most recent output json
     data = load_most_recent_simulation_json('../files')
 
-    # Custom colormap: 0 -> white, 1 -> green
-    cmap = ListedColormap(['white', 'green'])
-
     for i, simulation in enumerate(data):
         params=simulation['params']
         dimension=params['dimension']
@@ -39,7 +36,6 @@ def main():
            # Visualize the grid for each evolution
             for evolution_no, evolution_state in simulation['results'].items():
                 grid = evolution_state['matrix']
-
                 grid_array = np.array(grid)
 
                 # Create a gradient colormap from green to white
@@ -64,8 +60,12 @@ def main():
                 ax.set_yticks([])
                 ax.set_title(title + evolution_no)
 
-                plt.savefig("temp_image.png")
-                images.append(imageio.imread("temp_image.png"))
+                # Save the current plot to an in-memory buffer
+                buf = io.BytesIO()
+                plt.savefig(buf, format='png')
+                buf.seek(0)
+                images.append(imageio.imread(buf))
+                buf.close()
                 plt.close()
 
            # Create a GIF from the collected images
