@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.records.AllSimulationParams;
@@ -35,7 +37,7 @@ public class Main {
 
         // Invoke every simulation from the generated list
         final AtomicInteger simulationCounter = new AtomicInteger(0);
-        try (FileWriter writer = initializeOutputJson(filenameWithTimestamp)){
+        try (FileWriter writer = initializeOutputJson(allSimulationParams, filenameWithTimestamp)){
             singleSimulationParamsList.forEach(params -> {
                 try {
                     callSimulation(params, writer, simulationCounter.incrementAndGet(), singleSimulationParamsList.size());
@@ -43,13 +45,17 @@ public class Main {
                     throw new RuntimeException(e);
                 }
             });
-            writer.write("\n]");
+            writer.write("\n]\n}");
         }
     }
 
-    private static FileWriter initializeOutputJson(String outputJsonName) throws IOException {
+    private static FileWriter initializeOutputJson(AllSimulationParams global_params, String outputJsonName) throws IOException {
         FileWriter writer = new FileWriter("./files/%s".formatted(outputJsonName));
-        writer.write("[\n");
+        writer.write("{\n\"global_params\": ");
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        gson.toJson(global_params, writer);
+        writer.write(",\n");
+        writer.write("\"simulations\": [\n");
         return writer;
     }
 
