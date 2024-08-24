@@ -24,9 +24,15 @@ public class GOLSimulation<TCellMatrix, TStateMatrix> {
         gson.toJson(params, writer);
         writer.write(",\n\"results\": {\n");
 
+
+        //para calcular la distancia
+        double averageBiggestRadiusDistance = 0;
+        //
+
         while (!currentGrid.isFinished() && evolutions < params.maxEpochs()) {
             var gridState = currentGrid.evolve(params.ruleset().amountToRevive(), params.ruleset().neighboursToDie1(), params.ruleset().neighboursToDie2());
 
+            averageBiggestRadiusDistance += gridState.biggestDistanceFromCenter();
             writer.write("\"evolution_%s\": ".formatted(evolutions));
             gson.toJson(gridState, writer);
             writer.write(",\n");
@@ -44,7 +50,7 @@ public class GOLSimulation<TCellMatrix, TStateMatrix> {
 
         FinishStatus finalStatus = evolutions == params.maxEpochs() ? FinishStatus.WITH_MAX_EPOCHS: currentGrid.getFinishStatus();
 
-        writer.write("\n}, \"endingStatus\": \"%s\"\n}".formatted(finalStatus.getStatus()));
+        writer.write("\n}, \"endingStatus\": \"%s\", \"averageBiggestRadiusDistance\": %s \n}".formatted(finalStatus.getStatus(), averageBiggestRadiusDistance / evolutions));
     }
 }
 
