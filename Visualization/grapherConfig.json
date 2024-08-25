@@ -1,3 +1,5 @@
 {
-    "delaySeconds": 0.1
+    "delaySeconds": 0.1,
+    "generateGifs": false,
+    "generateGraphs": true
 }

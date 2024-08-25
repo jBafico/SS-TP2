@@ -8,6 +8,19 @@ class Ruleset:
     neighbours_to_die1: int
     neighbours_to_die2: int
 
+    # We need it to be hashable
+    def __hash__(self):
+        return hash((self.amount_to_revive, self.neighbours_to_die1, self.neighbours_to_die2))
+
+    def __eq__(self, other):
+        if isinstance(other, Ruleset):
+            return (
+                    self.amount_to_revive == other.amount_to_revive and
+                    self.neighbours_to_die1 == other.neighbours_to_die1 and
+                    self.neighbours_to_die2 == other.neighbours_to_die2
+            )
+        return False
+
 @dataclass
 class GlobalParams:
     rulesets: Dict[str, Dict[str, Ruleset]]
