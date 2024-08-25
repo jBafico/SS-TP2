@@ -34,12 +34,13 @@ def create_gif(simulation: Simulation, delay_seconds: int, simulation_no: int, d
 
     if dimension == '2D':
         # Visualize the grid for each evolution
+
         for evolution_no, evolution_state in simulation.results.evolutions.items():
             grid = evolution_state.matrix
             grid_array = np.array(grid)
 
-            # Create a gradient colormap from green to white
-            cmap = LinearSegmentedColormap.from_list("green_gradient", ["white", "green"])
+            # Create a gradient colormap from blue to red
+            cmap = LinearSegmentedColormap.from_list("blue_red_gradient", ["blue", "red"])
 
             # Calculate distances from the center
             center = np.array(grid_array.shape) // 2
@@ -48,14 +49,19 @@ def create_gif(simulation: Simulation, delay_seconds: int, simulation_no: int, d
             # Normalize distances to [0, 1]
             normalized_distances = distances / np.max(distances)
 
-            # Plot only True values with gradient colors
-            colored_grid = np.zeros(grid_array.shape)
-            colored_grid[grid_array] = normalized_distances[grid_array]
+            # Initialize a white background grid
+            colored_grid = np.ones((*grid_array.shape, 3))  # White background (R=1, G=1, B=1)
+
+            # Apply the gradient only to True values
+            for i in range(grid_array.shape[0]):
+                for j in range(grid_array.shape[1]):
+                    if grid_array[i, j]:
+                        color_value = cmap(normalized_distances[i, j])
+                        colored_grid[i, j] = color_value[:3]  # Extract RGB values
 
             fig, ax = plt.subplots()
-            ax.imshow(colored_grid, cmap=cmap, vmin=0, vmax=1)
+            ax.imshow(colored_grid)
 
-            ax.grid(False)
             ax.set_xticks([])
             ax.set_yticks([])
             ax.set_title(title + evolution_no)
@@ -71,6 +77,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, simulation_no: int, d
         # Save the GIF in the subdirectory
         gif_path = os.path.join(subdirectory, f'simulation_evolution_{simulation_no}.gif')
         imageio.mimsave(gif_path, images, duration=delay_seconds * SECONDS_MULTIPLIER)
+        
     elif dimension == '3D':
         # Loop through each evolution and create a plot for each
         for evolution_no, evolution_state in simulation.results.evolutions.items():
@@ -78,7 +85,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, simulation_no: int, d
             grid_array = np.array(grid)
 
             # Create a gradient colormap from green to white
-            cmap = LinearSegmentedColormap.from_list("green_gradient", ["white", "green"])
+            cmap = LinearSegmentedColormap.from_list("blue_red_gradient", ["white", "red"])
 
             # Calculate distances from the center
             center = np.array(grid_array.shape) // 2

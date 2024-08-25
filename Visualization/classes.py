@@ -50,6 +50,7 @@ class Evolution:
 class Results:
     evolutions: Dict[str, Evolution]
     ending_status: str
+    average_biggest_radius_distance: float
 
 @dataclass
 class Simulation:
@@ -120,7 +121,8 @@ def parse_json(directory_path: str) -> JsonData:
 
         results = Results(
             evolutions=evolutions,
-            ending_status=simulation_data['endingStatus']
+            ending_status=simulation_data['endingStatus'],
+            average_biggest_radius_distance=simulation_data['averageBiggestRadiusDistance']
         )
 
         simulations.append(Simulation(params=params, results=results))
