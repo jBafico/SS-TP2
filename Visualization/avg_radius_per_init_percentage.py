@@ -70,7 +70,10 @@ def main():
 
 
 
-
+    # probabilidad => lista [radios mas grandes]
+    # observable => radio + grande
+    # 0.1 => [15, 12, 14, 15, 61]
+    # 0.2 => [15, 12, 14 ]
     # Type hint for a dictionary that maps float to list of floats
     percentages_to_avg_radius_2d : Dict[str, List[float]] = {}
     percentages_to_avg_radius_3d : Dict[str, List[float]] = {}
@@ -81,7 +84,6 @@ def main():
         percentages_to_avg_radius_2d[str(current_percentage)] = []
         percentages_to_avg_radius_3d[str(current_percentage)] = []
 
-
     for simulation in json_data.simulations:
         for evolution in simulation.results.evolutions.values():
             if simulation.params.dimension == "2D":
@@ -91,8 +93,8 @@ def main():
 
 
     plot_data_with_error_bars(percentages_to_avg_radius_2d,f"{pathData}/2D.png")
+    plot_data_with_error_bars(percentages_to_avg_radius_3d,f"{pathData}/3D.png")
 
-    
 
 if __name__ == "__main__":
     main()
