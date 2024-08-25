@@ -4,6 +4,13 @@ import numpy as np
 from typing import Tuple, Dict, List
 from classes import Results, Ruleset
 
+# Define a fixed color map for ending statuses
+ENDING_STATUS_COLORS = {
+    'FINISHED_WITH_BORDER': 'red',
+    'FINISHED_WITH_ALL_DEAD': 'blue',
+    'FINISHED_WITH_SAME_AS_PREVIOUS_STATE': 'green',
+    'FINISHED_WITH_MAX_EPOCHS': 'purple',
+}
 
 def create_ending_type_graphs(
         conditions: Tuple[str, Ruleset],
@@ -39,7 +46,8 @@ def create_ending_type_graphs(
 
     for i, status in enumerate(sorted_statuses):
         counts = [ending_status_counts[init_perc].get(status, 0) for init_perc in sorted_init_percs]
-        plt.bar(indices + i * bar_width, counts, bar_width, label=status)
+        color = ENDING_STATUS_COLORS.get(status, 'gray')  # Default to gray if not in the color map
+        plt.bar(indices + i * bar_width, counts, bar_width, label=status, color=color)
 
     # Set plot labels and title
     dimension, ruleset = conditions
@@ -56,3 +64,4 @@ def create_ending_type_graphs(
     plt.close()
 
     print(f'Saved plot to {file_path}')
+
