@@ -28,7 +28,9 @@ def main():
     if generate_gifs:
         print('\nStarting GIF creation -------------------------------------------------')
         for i, simulation in enumerate(json_data.simulations):
-            create_gif(simulation, gif_delay_seconds, i, './generated_gifs')
+            params = simulation.params
+            identifier = get_tuple_str((params.initialization_percentage, params.dimension, params.ruleset))
+            create_gif(simulation, gif_delay_seconds, identifier, i, './generated_gifs')
         print('Finished GIF creation ---------------------------------------------------\n')
 
     # Group simulations that have the same dimensions, initializationPercentage and ruleset

@@ -9,7 +9,7 @@ import os
 SECONDS_MULTIPLIER = 1000
 
 
-def create_gif(simulation: Simulation, delay_seconds: int, simulation_no: int, directory_path: str):
+def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simulation_no: int, directory_path: str):
     print(f'Creating GIF no. {simulation_no}')
 
     params = simulation.params
@@ -75,7 +75,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, simulation_no: int, d
             plt.close()
 
         # Save the GIF in the subdirectory
-        gif_path = os.path.join(subdirectory, f'simulation_evolution_{simulation_no}.gif')
+        gif_path = os.path.join(subdirectory, f'simulation_evolution_{identifier}.gif')
         imageio.mimsave(gif_path, images, duration=delay_seconds * SECONDS_MULTIPLIER)
         
     elif dimension == '3D':
@@ -117,5 +117,5 @@ def create_gif(simulation: Simulation, delay_seconds: int, simulation_no: int, d
             plt.close()
 
         # Save the GIF in the subdirectory
-        gif_path = os.path.join(subdirectory, f'simulation_evolution_{simulation_no}.gif')
+        gif_path = os.path.join(subdirectory, f'simulation_evolution_{identifier}.gif')
         imageio.mimsave(gif_path, images, duration=delay_seconds * SECONDS_MULTIPLIER)
