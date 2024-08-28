@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-base_directory = "./observables"
+base_directory = "./observablesWithSlope"
 
 
 def create_directories_from_keys(grouped_results: Dict[Tuple[str, Ruleset], List[Results]]):
@@ -96,10 +96,8 @@ def plot_data_with_error_bars(data, output_path):
     # Customize the plot
     ax.set_xticks(np.arange(len(titles)))
     ax.set_xticklabels(titles, rotation=45, ha='right')
-    ax.set_title("Data with Mean and Error Bars for Each Title")
-    ax.set_xlabel("Initialization Percentages")
-    ax.set_ylabel("Radius values")
-    ax.legend(loc='upper right')
+    ax.set_xlabel("Porcentaje de inicializaciòn")
+    ax.set_ylabel("Distancia")
 
     # Save the plot to the specified file
     plt.tight_layout()
@@ -111,36 +109,36 @@ def plot_data_with_error_bars(data, output_path):
 
 
 
-def main():
+# def main():
 
-    json_data = parse_json('../files')
-
-
-    #ruleset + dimension => probabilidad + lista de resultados
-    grouped_results: Dict[Tuple[str, Ruleset], Dict[float,List[Results]]] = {}
-
-    
-    for simulation in json_data.simulations:
-        key = (simulation.params.dimension,simulation.params.ruleset)
-        if not key in grouped_results:
-            grouped_results[key] = {}
-        if not simulation.params.initialization_percentage in grouped_results[key]:
-            grouped_results[key][simulation.params.initialization_percentage] = []
-        grouped_results[key][simulation.params.initialization_percentage].append(simulation.results)
+#     json_data = parse_json('../files')
 
 
-    create_directories_from_keys(grouped_results)
-
-
-    for key, data in grouped_results.items():
-            graphic_observables(key,data)
-
+#     #ruleset + dimension => probabilidad + lista de resultados
+#     grouped_results: Dict[Tuple[str, Ruleset], Dict[float,List[Results]]] = {}
 
     
+#     for simulation in json_data.simulations:
+#         key = (simulation.params.dimension,simulation.params.ruleset)
+#         if not key in grouped_results:
+#             grouped_results[key] = {}
+#         if not simulation.params.initialization_percentage in grouped_results[key]:
+#             grouped_results[key][simulation.params.initialization_percentage] = []
+#         grouped_results[key][simulation.params.initialization_percentage].append(simulation.results)
+
+
+#     create_directories_from_keys(grouped_results)
+
+
+#     for key, data in grouped_results.items():
+#             graphic_observables(key,data)
+
+
+    
     
 
 
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

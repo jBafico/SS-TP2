@@ -5,5 +5,6 @@
     "generateMaxRadiusGraphs": false,
     "generateIndividualMaxRadiusGraphs": false,
     "generateEndingTypeGraphs": false,
-    "generateStepsUntilEndObservable": false
+    "generateStepsUntillEndObservable": false,
+    "generateSlopesObservables" : true
 }

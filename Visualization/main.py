@@ -7,6 +7,7 @@ from create_ending_type_graphs import create_ending_type_graphs
 from collections import defaultdict
 from typing import Dict, List, Tuple
 from create_steps_untill_death_observable import create_steps_untill_death_observable
+from slope_observable import create_directories_from_keys, graphic_observables
 
 
 def main():
@@ -20,6 +21,7 @@ def main():
     generate_ending_type_graphs = configuration['generateEndingTypeGraphs']
     generate_individual_max_radius_graphs = configuration['generateIndividualMaxRadiusGraphs']
     generate_steps_until_end_graphs = configuration['generateStepsUntilEndObservable']
+    generate_slopes_observables = configuration['generateSlopesObservables']
 
     # Load the most recent output json
     print('\nParsing the json ----------------------------------------------------------')
@@ -85,6 +87,14 @@ def main():
         for conditions, repetitions_by_init_percentage in grouped_results_2.items():
             create_steps_untill_death_observable(conditions, repetitions_by_init_percentage)
         print("\nFinished observables by steps------------------------------------------")
+
+    if generate_slopes_observables:
+        print('\nStarting observables by steps-------------------------------------------')
+        create_directories_from_keys(grouped_results_2)
+        for conditions, repetitions_by_init_percentage in grouped_results_2.items():
+            graphic_observables(conditions, repetitions_by_init_percentage)
+        print("\nFinished observables by steps-------------------------------------------")
+
 
 
 def get_tuple_str(to_convert: Tuple[float, str, Ruleset] | Tuple[str, Ruleset]) -> str:

@@ -8,6 +8,10 @@ import numpy as np
 
 from classes import Results, Ruleset
 import os
+from matplotlib.ticker import FuncFormatter
+
+
+
 
 
 def plot_data_with_error_bars(data, output_path):
@@ -41,12 +45,11 @@ def plot_data_with_error_bars(data, output_path):
     # Customize the plot
     ax.set_xticks(np.arange(len(titles)))
     ax.set_xticklabels(titles, rotation=45, ha='right')
-    ax.set_title("Data with Mean and Error Bars for Each Title")
-    ax.set_xlabel("Initialization Percentages")
-    ax.set_ylabel("Radius values")
-    ax.legend(loc='upper right')
+    ax.set_xlabel("Porcentajes de inicializaciòn")
+    ax.set_ylabel("Evolulciones")
 
-    # Save the plot to the specified file
+
+    # Save the plot to the specified fi
     plt.tight_layout()
     plt.savefig(output_path)
     plt.close()
