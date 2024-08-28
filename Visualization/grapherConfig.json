@@ -1,7 +1,8 @@
 {
     "delaySeconds": 0.1,
-    "generateGifs": false,
-    "generateAliveCellsGraphs": false,
-    "generateMaxRadiusGraphs": false,
+    "generateGifs": true,
+    "generateAliveCellsGraphs": true,
+    "generateMaxRadiusGraphs": true,
+    "generateIndividualMaxRadiusGraphs": true,
     "generateEndingTypeGraphs": true
 }

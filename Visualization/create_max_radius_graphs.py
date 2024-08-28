@@ -8,7 +8,7 @@ def create_max_radius_graphs(
         conditions: Tuple[float, str, Ruleset],
         repeated_simulations: List[Results],
         directory_path: str,
-        index: int
+        identifier: str
 ) -> None:
     # Create a scatter plot
     plt.figure(figsize=(10, 6))
@@ -38,7 +38,7 @@ def create_max_radius_graphs(
     os.makedirs(directory_path, exist_ok=True)
 
     # Save plot
-    file_path = os.path.join(directory_path, f'max_radius_graph_{index}.png')
+    file_path = os.path.join(directory_path, f'max_radius_graph_{identifier}.png')
     plt.savefig(file_path)
     plt.close()
 

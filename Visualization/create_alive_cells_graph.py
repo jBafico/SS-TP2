@@ -8,7 +8,7 @@ def create_alive_cells_graph(
         conditions: Tuple[float, str, Ruleset],
         repeated_simulations: List[Results],
         directory_path: str,
-        index: int
+        identifier: str
 ) -> None:
     plt.figure(figsize=(10, 6))
 
@@ -46,7 +46,7 @@ def create_alive_cells_graph(
     os.makedirs(directory_path, exist_ok=True)
 
     # Save the figure with a unique filename
-    file_path = os.path.join(directory_path, f'alive_cells_progression_{index}.png')
+    file_path = os.path.join(directory_path, f'alive_cells_progression_{identifier}.png')
     plt.savefig(file_path)
     plt.close()
 

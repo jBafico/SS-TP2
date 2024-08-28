@@ -16,7 +16,7 @@ def create_ending_type_graphs(
         conditions: Tuple[str, Ruleset],
         repeated_simulations_by_init_perc: Dict[float, List[Results]],
         directory_path: str,
-        index: int
+        identifier: str
 ) -> None:
     # Ensure the directory exists
     if not os.path.exists(directory_path):
@@ -58,7 +58,7 @@ def create_ending_type_graphs(
     plt.legend(title='Ending Status')
 
     # Save plot
-    file_path = os.path.join(directory_path, f'ending_type_graph_{index}.png')
+    file_path = os.path.join(directory_path, f'ending_type_graph_{identifier}.png')
     plt.savefig(file_path)
     plt.savefig(file_path)
     plt.close()
