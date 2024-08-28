@@ -9,12 +9,10 @@ import os
 SECONDS_MULTIPLIER = 1000
 
 
-def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simulation_no: int, directory_path: str):
+def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simulation_no: str, directory_path: str):
     print(f'Creating GIF no. {simulation_no}')
 
-    params = simulation.params
     dimension = simulation.params.dimension
-    ruleset = params.ruleset
 
     # If directory doesn't exist, create it
     if not os.path.exists(directory_path):
@@ -27,10 +25,6 @@ def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simu
 
     # List to store images for GIF
     images = []
-
-    title = "System: " + dimension + " - Initialization Percentage: " + str(
-        params.initialization_percentage) + " - Ruleset: [" + str(ruleset.amount_to_revive) + "," + str(
-        ruleset.neighbours_to_die1) + "," + str(ruleset.neighbours_to_die2) + "] "
 
     if dimension == '2D':
         # Visualize the grid for each evolution
@@ -64,7 +58,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simu
 
             ax.set_xticks([])
             ax.set_yticks([])
-            ax.set_title(title + evolution_no)
+            ax.set_title(f"Evolucion " + evolution_no.split('_')[1])
 
             # Save the current plot to an in-memory buffer
             buf = io.BytesIO()
@@ -102,12 +96,9 @@ def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simu
             colors[grid_array] = cmap(normalized_distances[grid_array])
             colors[~grid_array, 3] = 0  # Set alpha to 0 for false values
 
-            ax.set_title(title + evolution_no)
+            ax.axis('off')
+            ax.set_title(f"Evolucion " + evolution_no.split('_')[1])
             ax.voxels(grid_array, facecolors=colors, edgecolor='k')
-
-            ax.set_xlabel('X')
-            ax.set_ylabel('Y')
-            ax.set_zlabel('Z')
 
             buf = io.BytesIO()
             plt.savefig(buf, format='png')

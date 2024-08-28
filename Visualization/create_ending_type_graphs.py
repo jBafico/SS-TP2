@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import Tuple, Dict, List
 from classes import Results, Ruleset
+from matplotlib.ticker import MaxNLocator
 
 # Define a fixed color map for ending statuses
 ENDING_STATUS_COLORS = {
@@ -10,6 +11,14 @@ ENDING_STATUS_COLORS = {
     'FINISHED_WITH_ALL_DEAD': 'blue',
     'FINISHED_WITH_SAME_AS_PREVIOUS_STATE': 'green',
     'FINISHED_WITH_MAX_EPOCHS': 'purple',
+}
+
+# Define translations for ending statuses
+ENDING_STATUS_TRANSLATIONS = {
+    'FINISHED_WITH_ALL_DEAD': 'Todas las celulas muertas',
+    'FINISHED_WITH_MAX_EPOCHS': 'Maximo de epocas alcanzado',
+    'FINISHED_WITH_BORDER': 'Frontera alcanzada',
+    'FINISHED_WITH_SAME_AS_PREVIOUS_STATE': 'Estado igual al anterior',
 }
 
 def create_ending_type_graphs(
@@ -47,21 +56,22 @@ def create_ending_type_graphs(
     for i, status in enumerate(sorted_statuses):
         counts = [ending_status_counts[init_perc].get(status, 0) for init_perc in sorted_init_percs]
         color = ENDING_STATUS_COLORS.get(status, 'gray')  # Default to gray if not in the color map
-        plt.bar(indices + i * bar_width, counts, bar_width, label=status, color=color)
+        translated_status = ENDING_STATUS_TRANSLATIONS.get(status, status)  # Translate status to Spanish
+        plt.bar(indices + i * bar_width, counts, bar_width, label=translated_status, color=color)
 
     # Set plot labels and title
     dimension, ruleset = conditions
-    plt.xlabel('Initialization Percentage')
-    plt.ylabel('Number of Repetitions')
-    plt.title(f'Ending Status by Initialization Percentage\nDimension: {dimension}, Ruleset: {ruleset}')
+    plt.xlabel('Porcentaje de inicializacion')
+    plt.ylabel('Cantidad de repeticiones')
     plt.xticks(indices + bar_width * (len(sorted_statuses) - 1) / 2, sorted_init_percs)
-    plt.legend(title='Ending Status')
+    plt.legend(title='Estado Final')
+
+    # Ensure Y-axis is integer
+    plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Save plot
     file_path = os.path.join(directory_path, f'ending_type_graph_{identifier}.png')
     plt.savefig(file_path)
-    plt.savefig(file_path)
     plt.close()
 
     print(f'Saved plot to {file_path}')
-

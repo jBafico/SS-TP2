@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
-from typing import Tuple, List, Dict
-from classes import Results, Ruleset
+from typing import List
+from classes import Results
+from matplotlib.ticker import MaxNLocator
 import os
 
 
 def create_max_radius_graphs(
-        conditions: Tuple[float, str, Ruleset],
         repeated_simulations: List[Results],
         directory_path: str,
         identifier: str
@@ -25,11 +25,11 @@ def create_max_radius_graphs(
         plt.scatter(epochs, max_distances, label=f'Repetition {i + 1}')
 
     # Set plot title and labels
-    initialization_percentage, dimension, ruleset = conditions
-    plt.title(
-        f'Max Distance from Center\nInitialization: {initialization_percentage}, Dimension: {dimension}, Ruleset: {ruleset}')
-    plt.xlabel('Epoch Number')
-    plt.ylabel('Max Distance from Center')
+    plt.xlabel('Numero de epoca')
+    plt.ylabel('Distancia Max. desde el centro')
+
+    # Ensure X-axis is integer
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Add legend
     plt.legend()

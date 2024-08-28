@@ -1,11 +1,13 @@
 import os
 import matplotlib.pyplot as plt
 from typing import List, Tuple
-from classes import Ruleset, Results
+
+from matplotlib.ticker import MaxNLocator
+
+from classes import Results
 
 
 def create_alive_cells_graph(
-        conditions: Tuple[float, str, Ruleset],
         repeated_simulations: List[Results],
         directory_path: str,
         identifier: str
@@ -31,16 +33,17 @@ def create_alive_cells_graph(
             alive_cells_counts.append(evolution.alive_cells)
 
         # Plot the data for the current repetition
-        plt.plot(epochs, alive_cells_counts, label=f'Repetition {idx + 1}', color=colors[idx])
+        plt.scatter(epochs, alive_cells_counts, label=f'Repetition {idx + 1}', color=colors[idx])
 
     # Extract information from conditions for the title
-    initialization_percentage, dimension, ruleset = conditions
-    title = f'Alive Cells Progression | {dimension} | Init %: {initialization_percentage} | Ruleset: {ruleset}'
 
     plt.xlabel('Epoch')
     plt.ylabel('Alive Cells')
-    plt.title(title)
     plt.legend(loc='best')
+
+    # Ensure X and Y axes have integer ticks without commas
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
+    plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Create the directory if it does not exist
     os.makedirs(directory_path, exist_ok=True)
