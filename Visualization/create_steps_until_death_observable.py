@@ -1,18 +1,9 @@
-
-
-
 from typing import Dict, List, Tuple
-
 from matplotlib import pyplot as plt
 import numpy as np
-
-from classes import Results, Ruleset
+from matplotlib.ticker import MaxNLocator
 import os
-from matplotlib.ticker import FuncFormatter
-
-
-
-
+from classes import Results, Ruleset
 
 def plot_data_with_error_bars(data, output_path):
     """
@@ -45,32 +36,29 @@ def plot_data_with_error_bars(data, output_path):
     # Customize the plot
     ax.set_xticks(np.arange(len(titles)))
     ax.set_xticklabels(titles, rotation=45, ha='right')
-    ax.set_xlabel("Porcentajes de inicializaciòn")
-    ax.set_ylabel("Evolulciones")
+    ax.set_xlabel("Porcentajes de inicialización")
+    ax.set_ylabel("Evoluciones")
 
+    # Ensure Y-axis is integer
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
 
-    # Save the plot to the specified fi
+    # Save the plot to the specified file
     plt.tight_layout()
     plt.savefig(output_path)
     plt.close()
 
+base_directory = "./untilDeathObservables"
 
-
-base_directory = "./untillDeathObservables"
-def create_steps_untill_death_observable(conditions: Tuple[str, Ruleset], data : Dict[float, List[Results]]):
+def create_steps_until_death_observable(conditions: Tuple[str, Ruleset], data: Dict[float, List[Results]]):
     subDirectory = f"{conditions[0]}_{conditions[1].amount_to_revive}_{conditions[1].neighbours_to_die1}_{conditions[1].neighbours_to_die2}"
 
-    floatDict : Dict[float, List[int]] = {}
+    floatDict: Dict[float, List[int]] = {}
     for currentProbability, currentResult in data.items():
         stepsForCurrentProbability = []
         for result in currentResult:
-            stepsForCurrentProbability.append(len(result.evolutions) - 1) # -1 porque no contamos el paso 0
+            stepsForCurrentProbability.append(len(result.evolutions) - 1)  # -1 porque no contamos el paso 0
         floatDict[currentProbability] = stepsForCurrentProbability
-
 
     current_path = f"{base_directory}/{subDirectory}"
     os.makedirs(current_path, exist_ok=True)
-    plot_data_with_error_bars(floatDict,f"{current_path}/result.png")
-
-
-
+    plot_data_with_error_bars(floatDict, f"{current_path}/result.png")

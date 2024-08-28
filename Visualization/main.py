@@ -6,7 +6,7 @@ from create_max_radius_graphs import create_max_radius_graphs
 from create_ending_type_graphs import create_ending_type_graphs
 from collections import defaultdict
 from typing import Dict, List, Tuple
-from create_steps_untill_death_observable import create_steps_untill_death_observable
+from create_steps_until_death_observable import create_steps_until_death_observable
 from slope_observable import create_directories_from_keys, graphic_observables
 
 
@@ -85,7 +85,7 @@ def main():
     if generate_steps_until_end_graphs:
         print('\nStarting observables by steps------------------------------------------')
         for conditions, repetitions_by_init_percentage in grouped_results_2.items():
-            create_steps_untill_death_observable(conditions, repetitions_by_init_percentage)
+            create_steps_until_death_observable(conditions, repetitions_by_init_percentage)
         print("\nFinished observables by steps------------------------------------------")
 
     if generate_slopes_observables:
