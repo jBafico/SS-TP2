@@ -6,6 +6,7 @@ from create_max_radius_graphs import create_max_radius_graphs
 from create_ending_type_graphs import create_ending_type_graphs
 from collections import defaultdict
 from typing import Dict, List, Tuple
+from create_steps_untill_death_observable import create_steps_untill_death_observable
 
 
 def main():
@@ -18,6 +19,7 @@ def main():
     generate_max_radius_graphs = configuration['generateMaxRadiusGraphs']
     generate_ending_type_graphs = configuration['generateEndingTypeGraphs']
     generate_individual_max_radius_graphs = configuration['generateIndividualMaxRadiusGraphs']
+    generate_steps_untill_end_graphs = configuration['generateStepsUntillEndObservable']
 
     # Load the most recent output json
     print('\nParsing the json ----------------------------------------------------------')
@@ -78,6 +80,13 @@ def main():
             create_ending_type_graphs(conditions, repetitions_by_init_percentage, './ending_type_graphs', get_tuple_str(conditions))
         print('Finished ending type graphs ---------------------------------------------\n')
 
+    if generate_steps_untill_end_graphs:
+        print('\nStarting observables by steps-------------------------------------------')
+        for conditions, repetitions_by_init_percentage in grouped_results_2.items():
+            create_steps_untill_death_observable(conditions, repetitions_by_init_percentage)
+        print("\nFinished observables by steps-------------------------------------------")
+
+
 def get_tuple_str(to_convert: Tuple[float, str, Ruleset] | Tuple[str, Ruleset]) -> str:
     if len(to_convert) == 2:
         return f'{to_convert[0]}_{to_convert[1]}'
@@ -85,6 +94,13 @@ def get_tuple_str(to_convert: Tuple[float, str, Ruleset] | Tuple[str, Ruleset]) 
         return f'{to_convert[1]}_{to_convert[2]}_{to_convert[0]}'
     else:
         raise ValueError("Expected a tuple of length 2 or 3.")
+
+   
+
+        
+
+
+    #
 
 if __name__ == "__main__":
     main()
