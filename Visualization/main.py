@@ -28,22 +28,15 @@ def main():
     json_data = parse_json('../files')
     print('Finished parsing the json ---------------------------------------------------\n')
 
-    # Create gifs
-    if generate_gifs:
-        print('\nStarting GIF creation -------------------------------------------------')
-        for i, simulation in enumerate(json_data.simulations):
-            params = simulation.params
-            identifier = get_tuple_str((params.initialization_percentage, params.dimension, params.ruleset))
-            create_gif(simulation, gif_delay_seconds, identifier, i, './generated_gifs')
-        print('Finished GIF creation ---------------------------------------------------\n')
-
     # Group simulations that have the same dimensions, initializationPercentage and ruleset
+    print('Creating simulations by repetitions array -----------------------------------')
     simulations_by_repetitions: Dict[Tuple[float, str, Ruleset], List[Results]] = defaultdict(list)
     for simulation in json_data.simulations:
         params = simulation.params
         results = simulation.results
         key = (params.initialization_percentage, params.dimension, params.ruleset)
         simulations_by_repetitions[key].append(results)
+    print('Finished creating simulations by repetitions array --------------------------\n')
 
     # Create graphs to analyze alive cells in each evolution
     if generate_alive_cells_graphs:
@@ -62,8 +55,10 @@ def main():
     if generate_individual_max_radius_graphs:
         print('\nStarting individual max radius graphs ---------------------------------')
         for conditions, repetitions in simulations_by_repetitions.items():
+            repetition_no = 1
             for repetition in repetitions:
-                create_max_radius_graphs([repetition], './individual_max_radius_graphs', get_tuple_str(conditions))
+                repetition_no += 1
+                create_max_radius_graphs([repetition], './individual_max_radius_graphs', f"{get_tuple_str(conditions)}_{repetition_no}")
         print('Finished individual max radius graphs -----------------------------------\n')
 
     # Group data that has the same dimension and ruleset
@@ -94,6 +89,18 @@ def main():
         for conditions, repetitions_by_init_percentage in grouped_results_2.items():
             graphic_observables(conditions, repetitions_by_init_percentage)
         print("\nFinished observables by steps-------------------------------------------")
+
+    # Create gifs
+    if generate_gifs:
+        index = 0
+        print('\nStarting GIF creation -------------------------------------------------')
+        for conditions, repetitions in simulations_by_repetitions.items():
+            index += 1
+            result = repetitions[0]  # We only grab the first repetition
+            identifier = get_tuple_str(conditions)
+            dimension = tuple[1]
+            create_gif(result, dimension, gif_delay_seconds, identifier, index, './generated_gifs')
+        print('Finished GIF creation ---------------------------------------------------\n')
 
 
 

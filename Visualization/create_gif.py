@@ -1,4 +1,4 @@
-from classes import Simulation
+from classes import Results, Ruleset
 import numpy as np
 import matplotlib.pyplot as plt
 import imageio.v2 as imageio  # Importing imageio for GIF creation
@@ -9,10 +9,8 @@ import os
 SECONDS_MULTIPLIER = 1000
 
 
-def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simulation_no: str, directory_path: str):
+def create_gif(results: Results, dimension: str, delay_seconds: int, identifier: str, simulation_no: int, directory_path: str):
     print(f'Creating GIF no. {simulation_no}')
-
-    dimension = simulation.params.dimension
 
     # If directory doesn't exist, create it
     if not os.path.exists(directory_path):
@@ -29,7 +27,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simu
     if dimension == '2D':
         # Visualize the grid for each evolution
 
-        for evolution_no, evolution_state in simulation.results.evolutions.items():
+        for evolution_no, evolution_state in results.evolutions.items():
             grid = evolution_state.matrix
             grid_array = np.array(grid)
 
@@ -74,7 +72,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simu
         
     elif dimension == '3D':
         # Loop through each evolution and create a plot for each
-        for evolution_no, evolution_state in simulation.results.evolutions.items():
+        for evolution_no, evolution_state in results.evolutions.items():
             grid = evolution_state.matrix
             grid_array = np.array(grid)
 
