@@ -22,10 +22,10 @@ def create_max_radius_graphs(
         ]
 
         # Scatter plot for this repetition
-        plt.scatter(epochs, max_distances, label=f'Repetition {i + 1}')
+        plt.scatter(epochs, max_distances, label=f'Repetición {i + 1}')
 
     # Set plot title and labels
-    plt.xlabel('Numero de epoca')
+    plt.xlabel('Numero de época')
     plt.ylabel('Distancia Max. desde el centro')
 
     # Ensure X-axis is integer

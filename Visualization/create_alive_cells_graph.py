@@ -33,12 +33,12 @@ def create_alive_cells_graph(
             alive_cells_counts.append(evolution.alive_cells)
 
         # Plot the data for the current repetition
-        plt.scatter(epochs, alive_cells_counts, label=f'Repetition {idx + 1}', color=colors[idx])
+        plt.scatter(epochs, alive_cells_counts, label=f'Repetición {idx + 1}', color=colors[idx])
 
     # Extract information from conditions for the title
 
-    plt.xlabel('Epoch')
-    plt.ylabel('Alive Cells')
+    plt.xlabel('Numero de época')
+    plt.ylabel('Celdas vivas')
     plt.legend(loc='best')
 
     # Ensure X and Y axes have integer ticks without commas

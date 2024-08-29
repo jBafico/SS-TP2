@@ -95,8 +95,8 @@ def plot_data_with_error_bars(data, output_path):
     # Customize the plot
     ax.set_xticks(np.arange(len(titles)))
     ax.set_xticklabels(titles, rotation=45, ha='right')
-    ax.set_xlabel("Porcentaje de inicializaciòn")
-    ax.set_ylabel("Distancia")
+    ax.set_xlabel("Porcentaje de inicialización")
+    ax.set_ylabel("Observable: Pendiente")
 
     # Save the plot to the specified file
     plt.tight_layout()

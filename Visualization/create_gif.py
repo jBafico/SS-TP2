@@ -58,7 +58,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simu
 
             ax.set_xticks([])
             ax.set_yticks([])
-            ax.set_title(f"Evolucion " + evolution_no.split('_')[1])
+            ax.set_title(f"Evolución " + evolution_no.split('_')[1])
 
             # Save the current plot to an in-memory buffer
             buf = io.BytesIO()
@@ -97,7 +97,7 @@ def create_gif(simulation: Simulation, delay_seconds: int, identifier: str, simu
             colors[~grid_array, 3] = 0  # Set alpha to 0 for false values
 
             ax.axis('off')
-            ax.set_title(f"Evolucion " + evolution_no.split('_')[1])
+            ax.set_title(f"Evolución " + evolution_no.split('_')[1])
             ax.voxels(grid_array, facecolors=colors, edgecolor='k')
 
             buf = io.BytesIO()
