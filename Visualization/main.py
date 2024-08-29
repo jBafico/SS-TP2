@@ -1,4 +1,5 @@
 import json
+from alive_cells_slope_observables import graphic_observables_alive_cells
 from classes import parse_json, Results, Ruleset
 from create_gif import create_gif
 from create_alive_cells_graph import create_alive_cells_graph
@@ -22,6 +23,7 @@ def main():
     generate_individual_max_radius_graphs = configuration['generateIndividualMaxRadiusGraphs']
     generate_steps_until_end_graphs = configuration['generateStepsUntilEndObservable']
     generate_slopes_observables = configuration['generateSlopesObservables']
+    generate_alive_cells_observables = configuration["aliveCellsObservables"]
 
     # Load the most recent output json
     print('\nParsing the json ----------------------------------------------------------')
@@ -94,6 +96,13 @@ def main():
         for conditions, repetitions_by_init_percentage in grouped_results_2.items():
             graphic_observables(conditions, repetitions_by_init_percentage)
         print("\nFinished observables by steps-------------------------------------------")
+    
+    if generate_alive_cells_observables:
+        print('\nStarting observables by alive cells---------------------------------------')
+        for conditions, repetitions_by_init_percentage in grouped_results_2.items():
+            graphic_observables_alive_cells(conditions, repetitions_by_init_percentage)
+        print("\nFinished observables by steps-------------------------------------------")
+
 
 
 
