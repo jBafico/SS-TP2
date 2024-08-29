@@ -27,6 +27,7 @@ def create_directories_from_keys(grouped_results: Dict[Tuple[str, Ruleset], List
         os.makedirs(full_path, exist_ok=True)
 
 
+
 def calculate_slope(arr):
     # Generate x coordinates (indexes) based on the length of the array
     x = np.arange(len(arr))
@@ -34,16 +35,14 @@ def calculate_slope(arr):
     # y coordinates are the values in the array
     y = np.array(arr)
     
-    # Calculate the means of x and y
-    mean_x = np.mean(x)
-    mean_y = np.mean(y)
+    # Calculate slopes between consecutive points
+    slopes = [(y[i + 1] - y[i]) / (x[i + 1] - x[i]) for i in range(len(x) - 1)]
     
-    # Calculate the slope (m) using the formula
-    numerator = np.sum((x - mean_x) * (y - mean_y))
-    denominator = np.sum((x - mean_x) ** 2)
-    slope = numerator / denominator
+    # Calculate the average slope
+    average_slope = np.mean(slopes)
     
-    return slope
+    return average_slope
+
 
 def graphic_observables(key ,data : Dict[float, List[Results]]):
 
