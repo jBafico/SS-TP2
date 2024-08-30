@@ -107,7 +107,10 @@ def main():
             index += 1
             result = repetitions[0]  # We only grab the first repetition
             identifier = get_tuple_str(conditions)
-            dimension = tuple[1]
+            initialization_percentage = conditions[0]
+            dimension = conditions[1]
+            if initialization_percentage != 0.5 or dimension != '3D':
+                continue
             create_gif(result, dimension, gif_delay_seconds, identifier, index, './generated_gifs')
         print('Finished GIF creation ---------------------------------------------------\n')
 

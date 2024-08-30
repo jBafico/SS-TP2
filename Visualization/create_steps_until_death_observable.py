@@ -37,7 +37,7 @@ def plot_data_with_error_bars(data, output_path):
     ax.set_xticks(np.arange(len(titles)))
     ax.set_xticklabels(titles, rotation=45, ha='right')
     ax.set_xlabel("Porcentajes de inicialización")
-    ax.set_ylabel("Observable: Épocas hasta terminar")
+    ax.set_ylabel("Observable: Pendiente")
 
     # Ensure Y-axis is integer
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))

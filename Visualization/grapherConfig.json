@@ -1,11 +1,11 @@
 {
     "delaySeconds": 0.1,
-    "generateGifs": false,
+    "generateGifs": true,
     "generateAliveCellsGraphs": false,
     "generateMaxRadiusGraphs": false,
     "generateIndividualMaxRadiusGraphs": false,
     "generateEndingTypeGraphs": false,
     "generateStepsUntilEndObservable": false,
     "generateSlopesObservables" : false,
-    "aliveCellsObservables": true
+    "aliveCellsObservables": false
 }

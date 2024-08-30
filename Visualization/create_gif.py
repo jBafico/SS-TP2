@@ -94,7 +94,6 @@ def create_gif(results: Results, dimension: str, delay_seconds: int, identifier:
             colors[grid_array] = cmap(normalized_distances[grid_array])
             colors[~grid_array, 3] = 0  # Set alpha to 0 for false values
 
-            ax.axis('off')
             ax.set_title(f"Evolución " + evolution_no.split('_')[1])
             ax.voxels(grid_array, facecolors=colors, edgecolor='k')
 
